@@ -1,7 +1,7 @@
 /**:
     ros__parameters:
         # Livox CustomMsg replay profile for:
-        # ${UPDOWN_SC_ROOT}/anyverse/rosbag/ros2_parkinglot_1_0
+        # ${UPDOWN_SC_ROOT}/rosbag/ros2_parkinglot_1_0
         feature_extract_enable: false
         point_filter_num: 4
         max_iteration: 3

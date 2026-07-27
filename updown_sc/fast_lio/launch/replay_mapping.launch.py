@@ -233,7 +233,7 @@ def _launch_setup(context, *args, **kwargs):
 def generate_launch_description():
     package_path = get_package_share_directory('fast_lio')
     default_config_path = os.path.join(package_path, 'config')
-    default_bag_path = '${UPDOWN_SC_ROOT}/anyverse/rosbag/nav_debug_bag_2'
+    default_bag_path = '${UPDOWN_SC_ROOT}/rosbag/nav_debug_bag_2'
 
     ld = LaunchDescription()
     ld.add_action(DeclareLaunchArgument(

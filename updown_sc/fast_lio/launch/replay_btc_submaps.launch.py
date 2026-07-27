@@ -198,7 +198,7 @@ def generate_launch_description():
     declarations = [
         DeclareLaunchArgument("config_path", default_value=os.path.join(package, "config")),
         DeclareLaunchArgument("config_file", default_value="mid360.yaml"),
-        DeclareLaunchArgument("bag_path", default_value="${UPDOWN_SC_ROOT}/anyverse/rosbag/loc_2_floor"),
+        DeclareLaunchArgument("bag_path", default_value="${UPDOWN_SC_ROOT}/rosbag/loc_2_floor"),
         DeclareLaunchArgument("bag_lid_topic", default_value=""),
         DeclareLaunchArgument("bag_imu_topic", default_value=""),
         DeclareLaunchArgument("qos_path", default_value=""),

@@ -47,7 +47,7 @@ constexpr std::size_t kMaxWindowSlots = 200000;
 
 struct Options
 {
-    std::string bag_path = "${UPDOWN_SC_ROOT}/anyverse/rosbag/nav_debug_bag_2";
+    std::string bag_path = "${UPDOWN_SC_ROOT}/rosbag/nav_debug_bag_2";
     std::string config_path = std::string(ROOT_DIR) + "config/mid360.yaml";
     std::string bag_topic;
     std::string map_path;
@@ -529,7 +529,7 @@ void print_usage()
 {
     std::cout
         << "Usage: ros2 run fast_lio offline_relocalization_exporter [options]\n"
-        << "  --bag PATH             default: ${UPDOWN_SC_ROOT}/anyverse/rosbag/nav_debug_bag_2\n"
+        << "  --bag PATH             default: ${UPDOWN_SC_ROOT}/rosbag/nav_debug_bag_2\n"
         << "  --config PATH          default: " << ROOT_DIR << "config/mid360.yaml\n"
         << "  --bag-topic TOPIC      PointCloud2 topic inside the bag; default: common.lid_topic from config\n"
         << "  --topic TOPIC          Alias for --bag-topic\n"

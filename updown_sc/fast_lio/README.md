@@ -173,14 +173,14 @@ ros2 run fast_lio fastlio_mapping --ros-args \
 
 ```bash
 ros2 launch fast_lio replay_mapping.launch.py \
-  bag_path:=${UPDOWN_SC_ROOT}/anyverse/rosbag/nav_debug_bag_2
+  bag_path:=${UPDOWN_SC_ROOT}/rosbag/nav_debug_bag_2
 ```
 
 常用参数：
 
 ```bash
 ros2 launch fast_lio replay_mapping.launch.py \
-  bag_path:=${UPDOWN_SC_ROOT}/anyverse/rosbag/nav_debug_bag_2 \
+  bag_path:=${UPDOWN_SC_ROOT}/rosbag/nav_debug_bag_2 \
   start_offset:=0 \
   rate:=3.0 \
   clock_hz:=20
@@ -251,14 +251,14 @@ ros2 bag play /path/to/bag
 
 ```bash
 ros2 launch fast_lio replay_loc.launch.py \
-  bag_path:=${UPDOWN_SC_ROOT}/anyverse/rosbag/nav_debug_bag_2
+  bag_path:=${UPDOWN_SC_ROOT}/rosbag/nav_debug_bag_2
 ```
 
 如果 bag 内话题和配置里的 `common.lid_topic` / `common.imu_topic` 不一致，可以指定 bag 内源话题，launch 会自动 remap 到配置话题。例如 `bag_01` 只有前雷达点云：
 
 ```bash
 ros2 launch fast_lio replay_loc.launch.py \
-  bag_path:=${UPDOWN_SC_ROOT}/anyverse/rosbag/bag_01 \
+  bag_path:=${UPDOWN_SC_ROOT}/rosbag/bag_01 \
   bag_lid_topic:=/driver/lidar/lidar_front/point_cloud/Data
 ```
 
@@ -266,7 +266,7 @@ ros2 launch fast_lio replay_loc.launch.py \
 
 ```bash
 ros2 launch fast_lio replay_loc.launch.py \
-  bag_path:=${UPDOWN_SC_ROOT}/anyverse/rosbag/nav_debug_bag_2 \
+  bag_path:=${UPDOWN_SC_ROOT}/rosbag/nav_debug_bag_2 \
   start_offset:=35 \
   rate:=3.0 \
   clock_hz:=20
@@ -291,7 +291,7 @@ ros2 launch fast_lio replay_loc.launch.py \
 从 rosbag 中每 1 秒取一帧 FAST-LIO 去畸变 body 点云，逐段使用当前 Scan Context + ICP 重定位方法测试，并把每个窗口的最佳结果保存为 PCD。开启重力规范化后，bag 必须同时录制 FAST-LIO 直接从 ESKF 重力状态生成的 `/scan_context_gravity_up`：
 
 ```bash
-cd ${UPDOWN_SC_ROOT}/anyverse/slam
+cd ${UPDOWN_SC_ROOT}/slam
 source install/setup.zsh
 
 ros2 run fast_lio offline_relocalization_exporter \
@@ -378,7 +378,7 @@ sector 上粗对齐，再仅对粗对齐附近 ±3 sector 计算完整双包络�
 
 ```bash
 ros2 run fast_lio offline_relocalization_exporter \
-  --bag ${UPDOWN_SC_ROOT}/anyverse/rosbag/bag_01 \
+  --bag ${UPDOWN_SC_ROOT}/rosbag/bag_01 \
   --config fast_lio/config/mid360.yaml \
   --bag-topic /driver/lidar/lidar_front/point_cloud/Data \
   --output-dir fast_lio/Log/relocalization_windows_bag_01 \
@@ -509,7 +509,7 @@ source install/setup.zsh
 
 ```bash
 ros2 launch fast_lio replay_btc_submaps.launch.py \
-  bag_path:=${UPDOWN_SC_ROOT}/anyverse/rosbag/mapping_2_floor \
+  bag_path:=${UPDOWN_SC_ROOT}/rosbag/mapping_2_floor \
   output_dir:=${UPDOWN_SC_ROOT}/icra2027_runtime/experiments/btc_submaps/mapping_2_floor \
   scans_per_submap:=10 submap_stride_scans:=10 voxel_size:=0.1 \
   rate:=2.0 overwrite:=true
@@ -519,7 +519,7 @@ ros2 launch fast_lio replay_btc_submaps.launch.py \
 
 ```bash
 ros2 launch fast_lio replay_btc_submaps.launch.py \
-  bag_path:=${UPDOWN_SC_ROOT}/anyverse/rosbag/loc_2_floor \
+  bag_path:=${UPDOWN_SC_ROOT}/rosbag/loc_2_floor \
   output_dir:=${UPDOWN_SC_ROOT}/icra2027_runtime/experiments/btc_submaps/loc_2_floor \
   scans_per_submap:=10 submap_stride_scans:=10 voxel_size:=0.1 \
   rate:=2.0 overwrite:=true
