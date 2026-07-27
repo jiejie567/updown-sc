@@ -52,3 +52,22 @@ original directories.
   `run_single_scan_baselines.py` was later edited to 16 rings and no longer
   reproduces the recorded native CSVs; `rescore_native_baselines.py` pins the
   recorded protocol.
+
+# M2DGR hall benchmark 2026-07-27 — provenance
+
+Paper Table II's M2DGR column (+G, n_q = 28) traces to
+`experiments/m2dgr_hall_eval_2m/results/` (packaged as the `m2dgr_2m` data
+group):
+
+| Paper statement | Source |
+|---|---|
+| SC 96.4/96.4, SC++ 75.0/100.0, SOLiD 92.9/100.0, M2DP 46.4/85.7 | `results/gravity/per_query.csv` (recall_at_1/5 means per algorithm) |
+| LiDAR Iris 85.7/92.9 | `results/lidar_iris_per_query.csv` |
+| RING++ 85.7/100.0 | `results/ringpp/results/ringpp_per_query.csv` |
+| UpDown-SC 92.9/100.0 | `results/updown_candidates.csv` (rank ≤ 1/5 candidate within 2 m of `gravity/per_query.csv` truth) |
+| Alignment quality (4.4/4.9 cm RMSE, 10.3 cm cross-day median) | `build_report.json` + `experiments/m2dgr_hall/build_eval.py` log |
+| Origin heights 0.79/0.80 m | `build_report.json` height audit |
+
+BTC is `--` in the paper: its causal ten-scan accumulated windows were not
+constructed for M2DGR. All seven recall pairs were independently recomputed
+from the per-query CSVs before the paper was frozen (2026-07-27) and match.

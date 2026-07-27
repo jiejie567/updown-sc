@@ -15,6 +15,7 @@ pack ih_2m -C $RT/experiments private_two_bag_2m/map private_two_bag_2m/derived 
 pack ch_2m -C $RT/experiments rtk_slam_construction_hall_2m/seq1 rtk_slam_construction_hall_2m/derived rtk_slam_construction_hall_2m/results
 pack nc_2m -C $RT/experiments newer_college_quad_easy_2m
 pack cross_device_2m -C $RT/experiments indoor_cross_device_2m
+pack m2dgr_2m -h -C $RT/experiments m2dgr_hall_eval_2m/seq1 m2dgr_hall_eval_2m/query_session m2dgr_hall_eval_2m/derived m2dgr_hall_eval_2m/results m2dgr_hall_eval_2m/scd m2dgr_hall_eval_2m/split_hall_02 m2dgr_hall_eval_2m/split_hall_04 m2dgr_hall_eval_2m/build_report.json
 pack metrics -C $RT/experiments metrics_augment_20260725 updown_weight_ablation_real_20260721/selected updown_weight_ablation_real_20260721/selected_summary.csv
 pack production_map -C $RT manual_loop/gravity
 echo "done -> $OUT"

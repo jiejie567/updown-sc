@@ -10,6 +10,7 @@ paths the scripts expect:
 | `nc_2m/` | Newer College derived split + per-query CSVs | ~0.5 GB | `experiments/newer_college_quad_easy_2m/` |
 | `cross_device_2m/` | H1/H2/V1 sessions, queries, per-query CSVs | ~1 GB | `experiments/indoor_cross_device_2m/` |
 | `metrics/` | `metrics_augment_20260725/` CSVs (CI, PR/F1, McNemar, yaw) + weight-ablation `selected/` per-query and candidates | ~50 MB | `experiments/metrics_augment_20260725/` |
+| `m2dgr_2m/` | M2DGR hall_04 map session (33 keyframes) + hall_02 query session/bins (28 eligible queries), per-query CSVs for all 7 methods, SCDs, build report | ~14 MB | `experiments/m2dgr_hall_eval_2m/` |
 | `bags/ih/` | In-house rosbags, LiDAR+IMU topics only (mapping session, localization session, indoor H1/H2/V1) | tens of GB | n/a (inputs for full re-runs) |
 | `production_map/` | 2,574-keyframe production prior map + SCD used by the latency benchmark | ~1 GB | `manual_loop/gravity/` |
 
