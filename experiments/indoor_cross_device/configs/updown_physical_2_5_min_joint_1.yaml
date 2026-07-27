@@ -1,0 +1,16 @@
+scan_context:
+  num_rings: 16
+  num_sectors: 60
+  max_radius: 30.0
+  dual_z_layer_enable: true
+  dual_z_split_height: 2.5
+  dual_z_low_weight: 0.4
+  dual_z_high_weight: 0.6
+  min_joint_rings: 1
+  sector_support_exponent: 0.5
+  gravity_canonicalization_enable: true
+  vertical_estimation_enable: false
+  voxel_leaf: 0.25
+  candidate_top_k: 100
+  yaw_top_k: 3
+  distance_thresh: 0.5

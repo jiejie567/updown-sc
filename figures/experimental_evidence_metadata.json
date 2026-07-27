@@ -1,0 +1,57 @@
+{
+  "figure_contract": {
+    "core_conclusion": "Gravity mainly helps the mixed-attitude CH sequence; the adaptive split removes manual scene tuning without a uniform recall claim; the public CH replay remains continuously localized.",
+    "archetype": "two quantitative ablations plus trajectory overlay",
+    "backend": "Python/Matplotlib with native-shape PowerPoint export",
+    "target": "ICRA/IEEE two-column figure*"
+  },
+  "inputs": {
+    "gravity": {
+      "IH_Native": "${UPDOWN_SC_ROOT}/icra2027_runtime/experiments/updown_weight_ablation_real_20260721/selected/ih_native/summary.csv",
+      "IH_+G": "${UPDOWN_SC_ROOT}/icra2027_runtime/experiments/updown_weight_ablation_real_20260721/selected/ih_gravity/summary.csv",
+      "CH_Native": "${UPDOWN_SC_ROOT}/icra2027_runtime/experiments/updown_weight_ablation_real_20260721/selected/ch_native/summary.csv",
+      "CH_+G": "${UPDOWN_SC_ROOT}/icra2027_runtime/experiments/updown_weight_ablation_real_20260721/selected/ch_gravity/summary.csv"
+    },
+    "split": {
+      "IH_Fixed 2.5 m": "${UPDOWN_SC_ROOT}/icra2027_runtime/experiments/updown_weight_ablation_real_20260721/fixed25/ih/summary.csv",
+      "IH_Adaptive": "${UPDOWN_SC_ROOT}/icra2027_runtime/experiments/updown_weight_ablation_real_20260721/selected/ih_gravity/summary.csv",
+      "CH_Fixed 2.5 m": "${UPDOWN_SC_ROOT}/icra2027_runtime/experiments/updown_weight_ablation_real_20260721/fixed25/ch/summary.csv",
+      "CH_Adaptive": "${UPDOWN_SC_ROOT}/icra2027_runtime/experiments/updown_weight_ablation_real_20260721/selected/ch_gravity/summary.csv",
+      "H1\u2192H2_Fixed 2.5 m": "${UPDOWN_SC_ROOT}/icra2027_runtime/experiments/updown_weight_ablation_real_20260721/fixed25/h1_h2/summary.csv",
+      "H1\u2192H2_Adaptive": "${UPDOWN_SC_ROOT}/icra2027_runtime/experiments/updown_weight_ablation_real_20260721/selected/h1_h2/summary.csv",
+      "H1\u2192V1_Fixed 2.5 m": "${UPDOWN_SC_ROOT}/icra2027_runtime/experiments/updown_weight_ablation_real_20260721/fixed25/h1_v1/summary.csv",
+      "H1\u2192V1_Adaptive": "${UPDOWN_SC_ROOT}/icra2027_runtime/experiments/updown_weight_ablation_real_20260721/selected/h1_v1/summary.csv"
+    },
+    "map_trajectory": "${UPDOWN_SC_ROOT}/icra2027_runtime/experiments/rtk_slam_construction_hall/seq1/session/optimized_poses_tum.txt",
+    "localized_trajectory": "${UPDOWN_SC_ROOT}/icra2027_runtime/experiments/rtk_slam_construction_hall/localization/seq2_trusted_pose.csv",
+    "reference_trajectory": "${UPDOWN_SC_ROOT}/icra2027_runtime/experiments/rtk_slam_construction_hall/derived/seq2_truth_in_seq1_map_tum.txt",
+    "trajectory_audit": "${UPDOWN_SC_ROOT}/icra2027_runtime/experiments/rtk_slam_construction_hall/localization/trajectory_evaluation.json"
+  },
+  "trajectory_summary": {
+    "trusted_pose_count": 5872,
+    "truth_keyframes": 748,
+    "associated_keyframes": 748,
+    "association_fraction": 1.0,
+    "max_stamp_error_s": 0.15,
+    "position_error_median": 0.15513605384323764,
+    "position_error_p95": 0.3076162288908759,
+    "position_error_max": 0.3491685740873773,
+    "trusted_xy_min": [
+      -24.765181913040166,
+      -29.521762859373357
+    ],
+    "trusted_xy_max": [
+      56.15292936593459,
+      24.83292180133125
+    ],
+    "truth_xy_min": [
+      -24.754563381,
+      -29.70475826
+    ],
+    "truth_xy_max": [
+      56.117994661,
+      24.644042267
+    ]
+  },
+  "image_integrity": "Trajectory lines use all input poses in the manuscript raster/vector panels. The editable PowerPoint uniformly subsamples only the dense localized line to keep the number of native shapes tractable."
+}

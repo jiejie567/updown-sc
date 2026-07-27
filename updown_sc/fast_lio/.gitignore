@@ -1,0 +1,12 @@
+build
+__pycache__/
+*.py[cod]
+Log/**
+!Log/
+!Log/DO_NOT_DELETE
+.vscode/c_cpp_properties.json
+.vscode/settings.json
+PCD/*.pcd
+PCD/*.scd
+mapping_rosbag/*
+!mapping_rosbag/DO_NOT_DELETE

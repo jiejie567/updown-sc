@@ -1,0 +1,36 @@
+{
+  "selection_rule": "reuse the independently selected roof-contamination query: maximize conventional-SC cells above the final 2.1 m IH split across all truth-valid queries",
+  "evaluated_truth_valid_queries": 220,
+  "selected_query_id": 110,
+  "descriptor": {
+    "rings": 16,
+    "sectors": 60,
+    "radius_m": 30.0,
+    "split_height_m": 2.1,
+    "voxel_m": 0.25
+  },
+  "statistics": {
+    "window_start_sector": 44,
+    "window_width_sectors": 12,
+    "window_mixed_cells": 59,
+    "up_detail_window": {
+      "start_sector": 15,
+      "criterion": "max count of overhead cells with top-underside gap > 0.3 m, disjoint",
+      "gap_cells": 49,
+      "median_gap_m": 2.207
+    },
+    "down_detail_window": {
+      "start_sector": 28,
+      "criterion": "max std(Down)/std(SC), cells >= 40, disjoint",
+      "std_ratio": 2.552,
+      "down_std_m": 0.896,
+      "sc_overhead_std_m": 0.351
+    },
+    "occupied_cells": 467,
+    "overhead_cells": 431,
+    "lower_cells": 233,
+    "mixed_cells": 197
+  },
+  "image_integrity": "All descriptor cells use the same measured query. The descriptor matrices are circularly shifted only for display, with the same shift applied to SC, Up, Down, masks, and the highlighted window. No cell is interpolated or manually edited.",
+  "exclusions": "none after the pre-existing truth-valid query criterion"
+}

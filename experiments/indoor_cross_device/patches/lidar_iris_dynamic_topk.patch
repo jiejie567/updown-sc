@@ -1,0 +1,37 @@
+diff --git a/benchmark.cpp b/benchmark.cpp
+--- a/benchmark.cpp
++++ b/benchmark.cpp
+@@ -249,6 +249,9 @@ int main()
+         }
+         const double map_build_ms = std::chrono::duration<double, std::milli>(
+             Clock::now() - map_started).count();
++        const int top_k = std::min<int>(kTopK, map_features.size());
++        if (top_k <= 0)
++            throw std::runtime_error("empty map feature database");
+ 
+         std::ofstream output(kOutput);
+         output << "algorithm,query_id,window,start_s,truth_x,truth_y,top1_index,top1_x,top1_y,"
+@@ -278,10 +281,10 @@ int main()
+                 key_distances.emplace_back(distance, static_cast<int>(i));
+             }
+             std::partial_sort(
+-                key_distances.begin(), key_distances.begin() + kTopK, key_distances.end());
++                key_distances.begin(), key_distances.begin() + top_k, key_distances.end());
+             std::vector<std::pair<float, int>> exact;
+-            exact.reserve(kTopK);
+-            for (int i = 0; i < kTopK; ++i)
++            exact.reserve(top_k);
++            for (int i = 0; i < top_k; ++i)
+             {
+                 const int index = key_distances[i].second;
+                 exact.emplace_back(iris.Compare(query_feature, map_features[index]), index);
+@@ -291,8 +294,8 @@ int main()
+             const double elapsed = std::chrono::duration<double, std::milli>(
+                 Clock::now() - started).count();
+             int correct_rank = 0;
+             double top_error = 0.0;
+-            for (int rank = 0; rank < kTopK; ++rank)
++            for (int rank = 0; rank < top_k; ++rank)
+             {
+                 const double error = (map_positions[exact[rank].second] -
+                     Eigen::Vector2d(query.truth_x, query.truth_y)).norm();

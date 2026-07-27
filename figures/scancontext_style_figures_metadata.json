@@ -1,0 +1,18 @@
+{
+  "overview": "Conceptual method overview; it contains no performance data.",
+  "spatial_panels": {
+    "dataset": "IH pilot",
+    "queries": 320,
+    "selection": "all eligible 2 m query keyframes",
+    "encoding": "blue circle=correct Top-1; red cross/line=incorrect Top-1"
+  },
+  "rank_panel": {
+    "datasets": {
+      "IH": 320,
+      "CH": 148
+    },
+    "metric": "Recall@K for K=1,...,5",
+    "missing_or_empty_candidates": "counted as failures",
+    "front_end": "gravity-canonicalized (+G) for all plotted methods"
+  }
+}

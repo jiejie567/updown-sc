@@ -1,0 +1,19 @@
+{
+  "selection_rule": "IH+G 2 m evaluation, final channel weights: among queries with a correct top-1 retrieval, maximize dual-envelope mixed cells",
+  "query_id": 296,
+  "mixed_cells": 258,
+  "top1": {
+    "candidate_index": 345,
+    "distance": 0.22237381765270206,
+    "sector_shift": 30
+  },
+  "descriptor": {
+    "rings": 16,
+    "sectors": 60,
+    "radius_m": 30.0,
+    "voxel_m": 0.25,
+    "split_height_m": 2.1
+  },
+  "display_voxel_m": 0.1,
+  "integrity": "All panels derive from this one measured query, its recorded candidate list, the matched map keyframe, and the experimental map trajectory. No cell or point is edited."
+}

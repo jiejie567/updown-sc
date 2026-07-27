@@ -1,0 +1,210 @@
+/**:
+    ros__parameters:
+        # Runtime switches
+        feature_extract_enable: false
+        point_filter_num: 4
+        max_iteration: 3
+        runtime_pos_log_enable: false
+        pose_output_use_node_clock: false
+
+        runtime:
+            profile: "mapping" # mapping or localization; launch files override only this selector
+
+        # Frames, map files, and visualization
+        publish_tf: true
+        publish_pose_topic: true
+        localization_pose_topic: "/localization_pose"
+        map_file_path: "prior_map/scans.pcd"
+
+        visualization:
+            rviz: true
+            rviz_cfg: ""
+
+        common:
+            front_lid_topic: "/driver/lidar/lidar_front/point_cloud/Data"
+            lid_topic: "/driver/lidar/point_cloud/Data"
+            imu_topic: "/driver/lidar/lidar_front/imu/Data"
+            lidar_subscribe_qos_depth: 50
+            imu_subscribe_qos_depth: 2000
+            lidar_qos_reliability: "best_effort"
+            imu_qos_reliability: "best_effort"
+            imu_rate: 200.0
+            time_sync_en: false
+            time_offset_lidar_to_imu: 0.0
+            deskew_en: true
+            airy_imu_flip_yz: false
+
+        preprocess:
+            lidar_type: 4
+            scan_line: 4
+            mapping_blind: 0.3       # Mapping pipeline blind; Scan Context also uses this value.
+            localization_blind: 0.3   # Localization pipeline blind.
+            blind_filter_shape: "cylinder" # sphere or cylinder
+            blind_z_min: -0.5
+            blind_z_max: 2.0
+            max_range: 30.0
+            tag_filter_mode: "strict" # off, other, low_confidence, strict
+            timestamp_unit: 3
+            scan_rate: 10
+
+        # FAST-LIO mapping / odometry core
+        mapping:
+            fov_degree: 360.0
+            max_height: 100.0
+
+            acc_cov: 0.1
+            gyr_cov: 0.1
+            b_acc_cov: 0.0001
+            b_gyr_cov: 0.0001
+
+            extrinsic_est_en: false
+
+            # LiDAR to LiDAR-IMU extrinsic profile: front or fusion.
+            lidar_extrinsic_profile: "fusion"
+            extrinsic_profiles:
+                front:
+                    T: [ -0.011, -0.02329, 0.04412 ]
+                    R: [ 1.0, 0.0, 0.0,
+                         0.0, 1.0, 0.0,
+                         0.0, 0.0, 1.0 ]
+                fusion:
+                    T: [ 0.005785671, 0.209874321, -0.366286914 ]
+                    R: [ -0.845039375,  0.499695413,  0.190297001,
+                         -0.482962912, -0.866025404,  0.129409523,
+                          0.229467382,  0.017449749,  0.973159918 ]
+
+            # LiDAR-IMU to base_link.
+            transform_to_base_link_frame: true
+            output_base_link_origin_odom: true
+            output_body_frame_id: "base_link"
+            base_link_world_frame_id: "map"
+            extrinsic_T_imu_to_base_link: [ 0.190301529, 0.185257039, 0.328195007 ]
+            extrinsic_R_imu_to_base_link: [ -0.845039375, -0.482962912,  0.229467382,
+                                             0.499695413, -0.866025404,  0.017449749,
+                                             0.190297001,  0.129409523,  0.973159918 ]
+
+        # Map update filters
+        filter_size_surf: 0.25
+        filter_size_map: 0.25
+        cube_side_length: 1000.0
+
+        # Initial local cloud accumulation before relocalization.
+        initialization:
+            init_time_s: 0.1
+
+        # Restart prior-map relocalization after sustained unhealthy tracking.
+        localization_health:
+            auto_relocalize_enable: true
+            unhealthy_consecutive_frames: 10
+            min_effective_points: 100
+            restart_on_timestamp_rollback: true
+
+        # Prior-map localization.
+        prior_map:
+            mapping_use_prior_map: false
+            localization_use_prior_map: true
+
+            # Point-to-point ICP final alignment.
+            icp_max_iterations: 30
+            icp_max_corr_dist: 0.5
+            icp_fitness_thresh: 0.1
+            icp_min_overlap_ratio: 0.5
+            icp_min_points: 1000
+            icp_refine_top_k: 5
+            voxel_leaf: 0.5
+            voxel_leaf_fine: 0.3
+
+            # Legacy manual multi-seed fallback, mainly useful when Scan Context is disabled.
+            initial_guess_xy: [ 0.0, 0.0 ]
+            multi_seed_enable: true
+            seed_xy_range: 1.0
+            seed_xy_step: 0.5
+            seed_yaw_range_deg: 30.0
+            seed_yaw_step_deg: 10.0
+
+            # Initial global place recognition. The .scd database is paired with map_file_path.
+            scan_context:
+                enable: true
+                database_path: ""
+
+                # Mapping keyframe selection and descriptor input filtering.
+                keyframe_meter_gap: 0.5
+                keyframe_yaw_gap_deg: 10.0
+                voxel_leaf: 0.25
+
+                # Descriptor geometry.
+                num_rings: 16
+                num_sectors: 60
+                max_radius: 30.0
+                dual_z_layer_enable: true
+                # Used only when dual_z_split_auto=false (fixed-height
+                # ablation/backward compatibility). Pure adaptive mapping
+                # ignores this value.
+                dual_z_split_height: 2.5
+                # Mapping estimates one map-level physical split with a
+                # cell-balanced Otsu histogram, freezes it in scans.scd, and
+                # localization automatically reuses that stored value.
+                dual_z_split_auto: true
+                dual_z_split_auto_min: 1.5
+                dual_z_split_auto_max: 4.5
+                dual_z_split_auto_bin_size: 0.1
+                dual_z_split_auto_histogram_max: 8.0
+                dual_z_split_auto_min_layer_fraction: 0.05
+                dual_z_split_auto_min_keyframes: 20
+                origin_height_from_ground: 0.0
+                dual_z_low_weight: 0.3
+                dual_z_high_weight: 0.7
+                min_joint_rings: 2
+                # Candidate-local fallback supports mixed indoor/outdoor maps.
+                absent_upper_fallback_max_local_fraction: 0.05
+                absent_upper_fallback_radius: 10.0
+                absent_upper_fallback_min_keyframes: 3
+                # Retrieval-only numerical offset; stored signed heights are
+                # unchanged.
+                retrieval_height_offset: 0.1
+                # Square-root global support penalty; ring-mask overlap is
+                # already applied per sector.
+                sector_support_exponent: 0.5
+                # Level each deskewed scan with the ESKF gravity estimate while
+                # leaving yaw for circular sector matching.
+                gravity_canonicalization_enable: true
+                # Match SC yaw search: sector-key coarse alignment followed by
+                # exact dual-envelope scoring in the local +/-3-sector window.
+                # Retain the best 3 yaw hypotheses for geometric verification.
+                vertical_estimation_enable: false
+
+                # Relocalization candidates.
+                candidate_top_k: 100
+                yaw_top_k: 3
+                distance_thresh: 0.5
+                seed_xy_offset: 0.0
+
+        # ROS output topics.
+        publish:
+            path_en: true
+            effect_map_en: false
+            scan_publish_en: true
+            dense_publish_en: false
+            scan_bodyframe_pub_en: true
+            # 0 publishes every FAST-LIO-undistorted body cloud. For offline sampling,
+            # set stride/sample via ROS parameters and record /cloud_registered_body.
+            scan_bodyframe_stride_s: 0.0
+            scan_bodyframe_sample_s: 0.2
+
+        # Debug snapshots.
+        debug:
+            save_registered_pcd_en: false
+            save_registered_pcd_frame_interval: 10
+            registered_pcd_path: "Log/cloud_registered_latest.pcd"
+
+        # Ctrl+C mapping output.
+        pcd_save:
+            pcd_save_en: true
+            interval: -1
+            voxel_leaf: 0.3
+
+        # Offline manual-loop-closure session export, generated only in mapping mode.
+        manual_loop_export:
+            enable: true
+            session_dir: "PCD/manual_loop_session"
+            overwrite: true

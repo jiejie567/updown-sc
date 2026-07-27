@@ -1,0 +1,16 @@
+{
+  "figure_contract": {
+    "core_conclusion": "The IH+G-pilot-selected 0.3/0.7 pair also maximizes macro Recall@1, while every condition-level response remains visible.",
+    "archetype": "quantitative grid",
+    "backend": "Python/Matplotlib with native-shape PowerPoint export",
+    "target_width_mm": 87.6
+  },
+  "input": "archived real-data weight-sweep CSV",
+  "records": 77,
+  "conditions": 7,
+  "weight_pairs": 11,
+  "selection": "maximize IH+G pilot Recall@1, then freeze for every other condition",
+  "baseline_for_heatmap": "equal weighting (0.5, 0.5)",
+  "exclusions": "none",
+  "uncertainty": "deterministic retrieval on fixed queries; no seed variance claimed"
+}

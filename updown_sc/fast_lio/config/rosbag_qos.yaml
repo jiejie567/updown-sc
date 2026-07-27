@@ -1,0 +1,35 @@
+/driver/imu/Data:
+  reliability: best_effort
+  durability: volatile
+  history: keep_last
+  depth: 2000
+
+/driver/lidar/lidar_front/imu/Data:
+  reliability: best_effort
+  durability: volatile
+  history: keep_last
+  depth: 2000
+
+/driver/lidar/lidar_back/imu/Data:
+  reliability: best_effort
+  durability: volatile
+  history: keep_last
+  depth: 2000
+
+/driver/lidar/lidar_front/point_cloud/Data:
+  reliability: best_effort
+  durability: volatile
+  history: keep_last
+  depth: 200
+
+/driver/lidar/lidar_back/point_cloud/Data:
+  reliability: best_effort
+  durability: volatile
+  history: keep_last
+  depth: 200
+
+/driver/lidar/point_cloud/Data:
+  reliability: best_effort
+  durability: volatile
+  history: keep_last
+  depth: 200

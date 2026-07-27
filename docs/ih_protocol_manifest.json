@@ -1,0 +1,26 @@
+{
+  "format": "private_two_bag_retrieval_v2",
+  "keyframe_protocol": {
+    "scope": "experiment_only",
+    "spacing_m": 2.0,
+    "translation_dimension": "3-D Euclidean",
+    "time_trigger": false,
+    "yaw_trigger": false,
+    "map_count": 376,
+    "query_count": 322,
+    "production_fast_lio_policy_changed": false
+  },
+  "truth": {
+    "type": "pseudo-reference",
+    "source": "${UPDOWN_SC_ROOT}/icra2027_runtime/video/relocalization_experiment/current_map_localization/odometry.csv",
+    "warning": "Continuous prior-map localization is not independent ground truth; this split is a private regression/video experiment only.",
+    "association_time_error_max_s": 0.00043272972106933594,
+    "correct_radius_m": 2.0,
+    "eligible_queries": 320
+  },
+  "overlap": {
+    "nearest_map_distance_median": 0.7151500544036968,
+    "nearest_map_distance_p95": 1.3782937060428442,
+    "nearest_map_distance_max": 2.4296958000950286
+  }
+}

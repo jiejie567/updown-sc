@@ -1,0 +1,38 @@
+{
+  "source": "user-selected candidate H (query 112) from hero_oblique_candidates",
+  "query_id": 112,
+  "single_frame_duration_s": 0.1,
+  "gravity_canonicalized": true,
+  "projection": "orthographic side elevation view; azimuth 90 degrees; gravity-aligned z",
+  "split_height_m": 2.1,
+  "color_semantics": {
+    "quantity": "gravity-aligned height z_g in metres",
+    "low": "blue",
+    "high": "red",
+    "display_min_m": -0.5,
+    "display_max": "dominant ceiling height plus 0.12 m",
+    "split": "orange dashed line at the physical split height"
+  },
+  "display_crop": {
+    "points_total": 30064,
+    "dominant_ceiling_height_m": 3.030000000000001,
+    "ceiling_display_cutoff_m": 3.1500000000000012,
+    "points_after_ceiling_filter": 26503,
+    "points_removed_above_ceiling": 3561,
+    "radial_display_crop_m": 8.0,
+    "points_after_radial_crop": 23967,
+    "xy_display_percentiles": [
+      2.0,
+      98.0
+    ],
+    "points_displayed": 22072,
+    "display_x_low_m": -4.604832787335409,
+    "display_x_high_m": 4.48069756412919,
+    "display_y_low_m": -5.9087316603764934,
+    "display_y_high_m": 5.9014817180602686,
+    "display_z_low_m": -0.25,
+    "display_z_high_m": 3.1900000000000013,
+    "side_view_azimuth_deg": 90.0
+  },
+  "image_integrity": "For the Fig. 1 side-view display only, returns beyond 8 m, above the dominant ceiling-height histogram mode plus 0.12 m, or outside the stated XY display percentiles are omitted. Descriptor construction and every reported experiment remain unchanged. No point is moved, interpolated, locally recolored, or manually removed."
+}

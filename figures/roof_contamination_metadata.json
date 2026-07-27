@@ -1,0 +1,33 @@
+{
+  "selection_rule": "maximize the number of conventional Scan Context cells whose maximum height exceeds the 2.1 m map-adaptive IH split; tie-break by the number at or above the 4.0 m display over-range threshold, then by the number jointly occupied by lower/middle and overhead points",
+  "evaluated_truth_valid_queries": 220,
+  "chosen": {
+    "query_id": 110,
+    "window": 1099,
+    "hidden_cells": 197,
+    "occupied_cells": 467,
+    "hidden_fraction": 0.42184154175588867,
+    "overhead_dominated_cells": 431,
+    "overhead_dominated_fraction": 0.9229122055674518,
+    "display_overrange_cells": 182,
+    "lower_cells": 233,
+    "upper_cells": 431
+  },
+  "descriptor": {
+    "num_rings": 16,
+    "num_sectors": 60,
+    "max_radius_m": 30.0,
+    "split_height_m": 2.1,
+    "voxel_m": 0.25,
+    "sc_visualization": "maximum signed z on the same 16x60 grid",
+    "lower_envelope": "maximum signed z for z <= split height",
+    "upper_envelope": "minimum signed z for z > split height"
+  },
+  "point_counts": {
+    "raw": 30510,
+    "after_blind_and_range_filter": 30510,
+    "voxel_centroids_aggregated": 8653
+  },
+  "image_integrity": "The top-view panel and all three descriptor panels come from the same query frame. The cloud panel shows the scan as a single-color XY projection on a white background; reflectance/intensity is not used and no point is spatially edited. Its display-only XY limits use the 0.1--99.9 coordinate percentiles so sparse range-boundary returns do not shrink the visible structure; descriptor construction and reported counts still use every valid in-range point. Descriptor panels are computed from the same retained voxel centroids. Polar cells use direct max/min aggregation, invalid cells are masked gray, and no spatial interpolation or manual cell editing is applied. Gravity canonicalization is common preprocessing and is intentionally not presented as a separate panel. The shared display scale is capped at 4 m with an explicit over-range color; uncapped values remain in the source-data CSV.",
+  "export_contract": "Editable SVG and embedded-font PDF are the submission assets; the dense 3-D point layer is rasterized inside those vector containers while labels remain editable. The PNG is a 600 dpi preview. TIFF is intentionally omitted because the target IEEE workflow accepts vector PDF and the project minimizes redundant raster storage."
+}
