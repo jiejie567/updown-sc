@@ -18,30 +18,10 @@ The downloaded bag contains only:
 /os_cloud_node/imu     sensor_msgs/msg/Imu          100 Hz
 ```
 
-Run FAST-LIO with the project defaults plus the dataset-specific override:
-
-```bash
-cd ${UPDOWN_SC_ROOT}/OneDrive/icra2027/slam
-source /opt/ros/jazzy/setup.zsh
-source install/setup.zsh
-
-ros2 run fast_lio fastlio_mapping --ros-args \
-  --params-file install/fast_lio/share/fast_lio/config/mid360.yaml \
-  --params-file fast_lio/config/newer_college_os0.yaml \
-  -p runtime.profile:=mapping \
-  -p pcd_save.pcd_save_en:=false \
-  -p prior_map.scan_context.enable:=false
-```
-
-Then replay in another terminal:
-
-```bash
-source /opt/ros/jazzy/setup.zsh
-ros2 bag play \
-  ${UPDOWN_SC_ROOT}/icra2027_runtime/datasets/newer_college/quad_easy_ros2 \
-  --rate 1.0 \
-  --topics /os_cloud_node/points /os_cloud_node/imu
-```
+The session was produced with our FAST-LIO2-based front end (dataset override
+`newer_college_os0.yaml`; front end not part of this release — see the root
+README). The released `nc_2m` data group contains the resulting deskewed
+keyframe session and query set, from which everything below reproduces.
 
 `replay_raw_os1.py` is a low-storage compatibility utility for the original
 2020 raw PCD/CSV release. It streams scans directly from a ZIP and does not

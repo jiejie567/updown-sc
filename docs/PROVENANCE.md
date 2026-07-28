@@ -71,3 +71,20 @@ group):
 BTC is `--` in the paper: its causal ten-scan accumulated windows were not
 constructed for M2DGR. All seven recall pairs were independently recomputed
 from the per-query CSVs before the paper was frozen (2026-07-27) and match.
+
+# Release restructure 2026-07-28 — standalone UpDown-SC
+
+The FAST-LIO2 fork (GPL-2.0, our LiDAR-inertial front end) was removed from
+the release; `updown_sc/` now contains the standalone, ROS-free UpDown-SC
+implementation (Eigen + PCL + yaml-cpp) with the same sources:
+`scan_context.{hpp,cpp}` and the `scan_context_rebuild` /
+`scan_context_cross_sequence_evaluator` / `scan_context_convert` /
+`scan_context_subset` tools, byte-for-byte identical to the fork's files.
+
+Regression check (2026-07-28): the standalone `scan_context_rebuild` on the
+released M2DGR sessions produced **byte-identical** `map.scd`/`query.scd`
+(cmp vs the recorded `m2dgr_hall_eval_2m/scd/`), and the standalone
+evaluator's `updown_candidates.csv` reproduces 92.9/100.0 Recall@1/5
+(n = 28), matching the paper. Raw rosbags are no longer part of the data
+package; reproduction starts from the released deskewed keyframe sessions.
+The whole release is now MIT-licensed (`LICENSE`).

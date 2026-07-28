@@ -1,28 +1,25 @@
 #!/bin/zsh
-# Run all seven methods on the M2DGR hall 2 m evaluation tree produced by
-# build_eval.py. Assumes the UpDown-SC fork is built (scan_context_rebuild,
-# scan_context_cross_sequence_evaluator) and the baseline environments from
-# baselines/python exist.
+# Run all seven methods on the M2DGR hall 2 m evaluation tree (the released
+# m2dgr_2m data group). Assumes the standalone updown_sc tools are built
+# (updown_sc/build/) and the baseline environments from baselines/python exist.
 set -e
-source /opt/ros/jazzy/setup.zsh
-cd ${UPDOWN_SC_ROOT}/OneDrive/icra2027/slam
-source install/setup.zsh
+BIN=${UPDOWN_SC_ROOT}/updown-sc/updown_sc/build
 ROOT=${UPDOWN_SC_ROOT}/icra2027_runtime/experiments/m2dgr_hall_eval_2m
 mkdir -p $ROOT/results $ROOT/scd
 
 echo "=== UpDown SCD rebuild (gravity, measured origin heights) ==="
-ros2 run fast_lio scan_context_rebuild $ROOT/seq1/session $ROOT/scd/map.scd \
-  gravity ${UPDOWN_SC_ROOT}/icra2027_runtime/experiments/m2dgr_hall_2m/hall_04/session/runtime_params.yaml 0.790
-ros2 run fast_lio scan_context_rebuild $ROOT/query_session $ROOT/scd/query.scd \
-  gravity ${UPDOWN_SC_ROOT}/icra2027_runtime/experiments/m2dgr_hall_2m/hall_02/session/runtime_params.yaml 0.799
+$BIN/scan_context_rebuild $ROOT/seq1/session $ROOT/scd/map.scd \
+  gravity $ROOT/seq1/session/runtime_params.yaml 0.790
+$BIN/scan_context_rebuild $ROOT/query_session $ROOT/scd/query.scd \
+  gravity $ROOT/query_session/runtime_params.yaml 0.799
 
 echo "=== UpDown retrieval (final weights 0.3/0.7) ==="
-ros2 run fast_lio scan_context_cross_sequence_evaluator \
+$BIN/scan_context_cross_sequence_evaluator \
   $ROOT/scd/map.scd $ROOT/scd/query.scd $ROOT/results/updown_candidates.csv \
   100 0.3 0.7 2 0.5 0.1
 
 echo "=== SC / SC++ / SOLiD / M2DP (+G) ==="
-cd ${UPDOWN_SC_ROOT}/OneDrive/icra2027/slam/experiments/common
+cd ${UPDOWN_SC_ROOT}/updown-sc/experiments/common
 python3 run_gravity_frontend_transfer.py \
   --map-dir $ROOT/seq1/session/key_point_frame \
   --map-poses $ROOT/seq1/session/optimized_poses_tum.txt \

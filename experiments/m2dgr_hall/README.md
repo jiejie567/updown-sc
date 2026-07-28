@@ -16,18 +16,22 @@ This is the paper's spinning-32-beam transfer check.
 
 ## Pipeline
 
+Steps 1–4 document how the released sessions were produced; the LIO front end
+itself is not part of this release, and the resulting evaluation tree ships
+as the `m2dgr_2m` data group — reproduction starts at step 5.
+
 1. `segmented_download.py` (dataset dir) — chunked, resumable SharePoint
    download (SJTU throttles to ~0.2–1 MB/s total).
 2. `convert_bags.py` — ROS1 → ROS2 via `rosbags`, keeping
    `/velodyne_points` + `/handsfree/imu` only.
-3. `run_mapping.sh <seq>` — FAST-LIO fork with
-   `fast_lio/config/m2dgr_vlp32.yaml` (VELO16 handler, scan_line 32,
-   timestamp_unit seconds, LiDAR-in-IMU T [0.27255, -0.00053, 0.17954]) and
-   reliable QoS on both replay ends; exports the manual-loop session.
+3. Mapping with our FAST-LIO2-based front end (VELO16 handler, scan_line 32,
+   timestamp_unit seconds, LiDAR-in-IMU T [0.27255, -0.00053, 0.17954],
+   reliable QoS on both replay ends), exporting the keyframe session.
 4. `build_eval.py` — builds the CH-layout evaluation tree
    (`m2dgr_hall_eval_2m/`): 2 m splits, GT alignment, cross-day
    registration, query bin/gravity/metadata export, height audit.
-5. `run_eval.sh` — all seven methods on that tree.
+5. `run_eval.sh` — all seven methods on that tree (UpDown via the standalone
+   `updown_sc` tools).
 
 ## Ground-truth alignment (key findings)
 

@@ -1,0 +1,35 @@
+saveResultBodyFrame: true
+keyframe_source: fast_lio_scan_context
+scan_context:
+  num_rings: 16
+  num_sectors: 60
+  max_radius: 30
+  dual_z_layer_enable: true
+  dual_z_split_height: 2.5
+  dual_z_split_auto: true
+  dual_z_split_auto_min: 1.5
+  dual_z_split_auto_max: 4.5
+  dual_z_split_auto_bin_size: 0.10000000000000001
+  dual_z_split_auto_histogram_max: 8
+  dual_z_split_auto_min_layer_fraction: 0.050000000000000003
+  dual_z_split_auto_min_keyframes: 20
+  origin_height_from_ground: 0
+  ground_relative_dual_z_split_height: 2.5
+  dual_z_low_weight: 0.29999999999999999
+  dual_z_high_weight: 0.69999999999999996
+  min_joint_rings: 2
+  absent_upper_fallback_max_local_fraction: 0.050000000000000003
+  absent_upper_fallback_radius: 10
+  absent_upper_fallback_min_keyframes: 3
+  retrieval_height_offset: 0.10000000000000001
+  sector_support_exponent: 0.5
+  vertical_boundary_margin: 0.10000000000000001
+  gravity_canonicalization_enable: true
+  vertical_estimation_enable: false
+  vertical_correction_min: -1.5
+  vertical_correction_max: 1.5
+  vertical_stable_fraction: 0.5
+  voxel_leaf: 0.25
+  candidate_top_k: 100
+  yaw_top_k: 3
+  distance_thresh: 0.5
