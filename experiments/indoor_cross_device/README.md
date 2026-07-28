@@ -72,7 +72,7 @@ Important files:
 Render the standalone chapter with:
 
 ```bash
-cd ${UPDOWN_SC_ROOT}/OneDrive/icra2027/slam/experiments/indoor_cross_device
+cd ${UPDOWN_SC_ROOT}/updown-sc/experiments/indoor_cross_device
 INDOOR_CROSS_DEVICE_EXPERIMENT=${UPDOWN_SC_ROOT}/icra2027_runtime/experiments/indoor_cross_device_2m \
   ${UPDOWN_SC_ROOT}/icra2027_runtime/envs/construction-hall-video/bin/manim \
   -qh --fps 30 --resolution 1920,1080 \

@@ -5,7 +5,7 @@ Ouster OS0-128 spinning LiDAR with its built-in IMU. To avoid downloading the
 camera streams, the runtime dataset uses the LiDAR/IMU-only ROS 2 repack
 published with the IROS 2024 dynamic-LiDAR annotations.
 
-Runtime data are intentionally outside OneDrive:
+Runtime data live under:
 
 ```text
 ${UPDOWN_SC_ROOT}/icra2027_runtime/datasets/newer_college/quad_easy_ros2/

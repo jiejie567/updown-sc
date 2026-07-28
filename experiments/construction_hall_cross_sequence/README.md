@@ -91,7 +91,7 @@ the independent GNSS-aligned trajectory, its position error is 0.155 m median,
 
 ## Outputs
 
-All generated data live outside OneDrive under:
+All generated data live under:
 
 ```text
 ${UPDOWN_SC_ROOT}/icra2027_runtime/experiments/rtk_slam_construction_hall_2m/

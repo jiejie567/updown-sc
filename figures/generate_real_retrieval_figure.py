@@ -51,7 +51,7 @@ from pptx.util import Inches, Pt
 
 OUT_DIR = Path(__file__).resolve().parent
 EXPERIMENT = Path("${UPDOWN_SC_ROOT}/icra2027_runtime/experiments/private_two_bag_2m")
-MAP_PCD = Path("${UPDOWN_SC_ROOT}/OneDrive/icra2027/slam/fast_lio/prior_map/scans.pcd")
+MAP_PCD = Path("${UPDOWN_SC_ROOT}/prior_map/scans.pcd")  # dense production map (display only; not in the data package)
 MAP_POSES = EXPERIMENT / "map/session/optimized_poses_tum.txt"
 SC_CSV = Path(
     "${UPDOWN_SC_ROOT}/icra2027_runtime/experiments/"

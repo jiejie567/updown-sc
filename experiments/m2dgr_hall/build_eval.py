@@ -27,7 +27,7 @@ from scipy.spatial import cKDTree
 RT = Path("${UPDOWN_SC_ROOT}/icra2027_runtime")
 SRC = RT / "experiments/m2dgr_hall_2m"
 ROOT = RT / "experiments/m2dgr_hall_eval_2m"
-COMMON = Path("${UPDOWN_SC_ROOT}/OneDrive/icra2027/slam/experiments/common")
+COMMON = Path("${UPDOWN_SC_ROOT}/updown-sc/experiments/common")
 GT_DIR = RT / "datasets/m2dgr"
 SPACING = 2.0
 RADIUS = 2.0
