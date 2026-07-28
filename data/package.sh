@@ -11,8 +11,8 @@ pack () {  # pack <name> <src...>
   (cd $OUT && sha256sum $name.tar.gz >> SHA256SUMS)
   echo "packed $name"
 }
-pack ih_2m -C $RT/experiments private_two_bag_2m/map private_two_bag_2m/derived private_two_bag_2m/results
-pack ch_2m -C $RT/experiments rtk_slam_construction_hall_2m/seq1 rtk_slam_construction_hall_2m/derived rtk_slam_construction_hall_2m/results
+pack ih_2m -C $RT/experiments private_two_bag_2m/map private_two_bag_2m/query private_two_bag_2m/derived private_two_bag_2m/results
+pack ch_2m -C $RT/experiments rtk_slam_construction_hall_2m/seq1 rtk_slam_construction_hall_2m/seq2 rtk_slam_construction_hall_2m/derived rtk_slam_construction_hall_2m/results
 pack nc_2m -C $RT/experiments newer_college_quad_easy_2m
 pack cross_device_2m -C $RT/experiments indoor_cross_device_2m
 pack m2dgr_2m -h -C $RT/experiments m2dgr_hall_eval_2m/seq1 m2dgr_hall_eval_2m/query_session m2dgr_hall_eval_2m/derived m2dgr_hall_eval_2m/results m2dgr_hall_eval_2m/scd m2dgr_hall_eval_2m/split_hall_02 m2dgr_hall_eval_2m/split_hall_04 m2dgr_hall_eval_2m/build_report.json
