@@ -1,8 +1,8 @@
 # UpDown-SC: Gravity-Canonicalized Dual-Envelope Scan Context
 
-Code, baselines, evaluation protocols, and data release for the ICRA 2027
-submission "UpDown-SC: A Gravity-Canonicalized Dual-Envelope Scan Context for
-Indoor LiDAR Place Recognition" (anonymous during review).
+Code, baselines, evaluation protocols, and data release for the paper
+"UpDown-SC: A Gravity-Canonicalized Dual-Envelope Scan Context for Indoor
+LiDAR Place Recognition" (under review).
 
 Every number in the paper traces to a per-query CSV in the data package; see
 `docs/PROVENANCE.md`.
