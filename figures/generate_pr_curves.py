@@ -43,6 +43,8 @@ STYLE = {
     "M2DP": ("#A98BA8", "-"),
     "LiDAR-Iris": ("#5B8DB8", "-"),
     "RING++": ("#C98A5A", "-"),
+    "OT": ("#364B5C", "--"),
+    "MinkLoc-v2": ("#6F5E9C", "-."),
     "UpDown-SC": ("#B64342", "-"),
 }
 TITLES = {
@@ -73,7 +75,7 @@ def main() -> None:
             else:
                 rows = crs.read_rows(path, algo)
                 total = len(rows)
-                scores = np.asarray([float(r["top1_score"]) for r in rows])
+                scores = np.asarray([crs.score_value(r) for r in rows])
                 flags = np.asarray([crs.as_bool(r["recall_at_1"]) for r in rows])
             recall, precision = curve(
                 scores, flags, crs.DISTANCE_LIKE[method], total)
@@ -93,7 +95,7 @@ def main() -> None:
     for ax in axes[:, 0]:
         ax.set_ylabel("precision", fontsize=8)
     handles, labels = axes[0, 0].get_legend_handles_labels()
-    fig.legend(handles, labels, loc="lower center", ncol=4, fontsize=7.5,
+    fig.legend(handles, labels, loc="lower center", ncol=5, fontsize=7.5,
                bbox_to_anchor=(0.5, -0.005))
     fig.suptitle("Top-1 acceptance precision–recall "
                  "(threshold sweep on descriptor confidence)",
@@ -122,7 +124,7 @@ def make_paper_figure() -> None:
             else:
                 rows = crs.read_rows(path, algo)
                 total = len(rows)
-                scores = np.asarray([float(r["top1_score"]) for r in rows])
+                scores = np.asarray([crs.score_value(r) for r in rows])
                 flags = np.asarray([crs.as_bool(r["recall_at_1"]) for r in rows])
             recall, precision = curve(
                 scores, flags, crs.DISTANCE_LIKE[method], total)
@@ -142,8 +144,8 @@ def make_paper_figure() -> None:
         ax.set_xlabel("recall", fontsize=5.4, labelpad=1.5)
     axes[0].set_ylabel("precision", fontsize=5.4, labelpad=1.5)
     handles, labels = axes[0].get_legend_handles_labels()
-    fig.legend(handles, labels, loc="lower center", ncol=4, fontsize=4.9,
-               bbox_to_anchor=(0.5, -0.045), columnspacing=0.9,
+    fig.legend(handles, labels, loc="lower center", ncol=5, fontsize=5.0,
+               bbox_to_anchor=(0.5, -0.045), columnspacing=0.65,
                handlelength=1.4, handletextpad=0.4)
     fig.subplots_adjust(left=0.085, right=0.99, top=0.90, bottom=0.30,
                         wspace=0.08)

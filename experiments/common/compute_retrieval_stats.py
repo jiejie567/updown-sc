@@ -6,8 +6,9 @@ metrics follow the common LPR protocol: each query's top-1 candidate carries a
 confidence score; sweeping an acceptance threshold yields precision (correct
 accepted / accepted) and recall (correct accepted / all queries). F1max is the
 maximum F1 over thresholds and AUPR the trapezoidal area under the PR curve.
-Score direction is per method: distances (SC, SC++, M2DP, Iris, UpDown-SC)
-rank ascending, similarities/correlations (SOLiD, RING++) descending.
+Score direction is per method: distances (SC, SC++, M2DP, Iris, OT,
+MinkLoc-v2, UpDown-SC) rank ascending, similarities/correlations (SOLiD,
+RING++) descending.
 """
 
 from __future__ import annotations
@@ -23,12 +24,15 @@ SELECTED = RT / "updown_weight_ablation_real_20260721/selected"
 AUG = RT / "metrics_augment_20260725"
 GT = RT / "gravity_transfer_2m_20260718"
 T3 = RT / "indoor_cross_device_2m/table3_2m"
+LEARNED_OT = RT / "learned_baseline_20260831"
+LEARNED_MINK = RT / "learned_minkloc3dv2_20260831"
 OUT = AUG
 
 # score direction: True when smaller scores mean higher confidence
 DISTANCE_LIKE = {
     "SC": True, "SC++ (PC)": True, "SOLiD": False, "M2DP": True,
-    "LiDAR-Iris": True, "RING++": False, "UpDown-SC": True,
+    "LiDAR-Iris": True, "RING++": False, "OT": True,
+    "MinkLoc-v2": True, "UpDown-SC": True,
 }
 
 
@@ -44,6 +48,14 @@ def read_rows(path: Path, algorithm: str | None = None) -> list[dict]:
 
 def as_bool(value: str) -> bool:
     return value in ("True", "true", "1")
+
+
+def score_value(row: dict) -> float:
+    """Read a method's recorded top-1 confidence/distance."""
+    for column in ("top1_score", "top1_distance"):
+        if row.get(column) not in (None, ""):
+            return float(row[column])
+    raise RuntimeError("Per-query row has no top-1 score column")
 
 
 def wilson_interval(successes: int, n: int, z: float = 1.959964) -> tuple[float, float]:
@@ -72,6 +84,8 @@ def cond_files() -> dict:
             "M2DP": (ih / "m2dp_per_query.csv", "M2DP"),
             "LiDAR-Iris": (ih / "lidar_iris_per_query.csv", None),
             "RING++": (ih / "ringpp_per_query.csv", None),
+            "OT": (LEARNED_OT / "ih_native/per_query.csv", None),
+            "MinkLoc-v2": (LEARNED_MINK / "ih_native/per_query.csv", None),
             "UpDown-SC": (SELECTED / "ih_native/per_query.csv", None),
         },
         "ih_gravity": {
@@ -81,6 +95,8 @@ def cond_files() -> dict:
             "M2DP": (GT / "ih/results/per_query.csv", "M2DP + G"),
             "LiDAR-Iris": (GT / "ih/results/lidar_iris_per_query.csv", None),
             "RING++": (GT / "ih/ringpp/results/ringpp_per_query.csv", None),
+            "OT": (LEARNED_OT / "ih_gravity/per_query.csv", None),
+            "MinkLoc-v2": (LEARNED_MINK / "ih_gravity/per_query.csv", None),
             "UpDown-SC": (SELECTED / "ih_gravity/per_query.csv", None),
         },
         "ch_native": {
@@ -90,6 +106,8 @@ def cond_files() -> dict:
             "M2DP": (ch / "m2dp_per_query.csv", "M2DP"),
             "LiDAR-Iris": (ch / "lidar_iris_per_query.csv", None),
             "RING++": (ch / "ringpp_per_query.csv", None),
+            "OT": (LEARNED_OT / "ch_native/per_query.csv", None),
+            "MinkLoc-v2": (LEARNED_MINK / "ch_native/per_query.csv", None),
             "UpDown-SC": (SELECTED / "ch_native/per_query.csv", None),
         },
         "ch_gravity": {
@@ -99,6 +117,8 @@ def cond_files() -> dict:
             "M2DP": (GT / "ch/results/per_query.csv", "M2DP + G"),
             "LiDAR-Iris": (GT / "ch/results/lidar_iris_per_query.csv", None),
             "RING++": (GT / "ch/ringpp/results/ringpp_per_query.csv", None),
+            "OT": (LEARNED_OT / "ch_gravity/per_query.csv", None),
+            "MinkLoc-v2": (LEARNED_MINK / "ch_gravity/per_query.csv", None),
             "UpDown-SC": (SELECTED / "ch_gravity/per_query.csv", None),
         },
         "h1_h2": {
@@ -108,6 +128,8 @@ def cond_files() -> dict:
             "M2DP": (T3 / "handle2/gravity/per_query.csv", "M2DP + G"),
             "LiDAR-Iris": (T3 / "handle2/iris/per_query.csv", None),
             "RING++": (T3 / "handle2/ringpp/results/ringpp_per_query.csv", None),
+            "OT": (LEARNED_OT / "indoor_handle2_gravity/per_query.csv", None),
+            "MinkLoc-v2": (LEARNED_MINK / "indoor_handle2_gravity/per_query.csv", None),
             "UpDown-SC": (SELECTED / "h1_h2/per_query.csv", None),
         },
         "h1_v1": {
@@ -117,6 +139,8 @@ def cond_files() -> dict:
             "M2DP": (T3 / "vehicle1/gravity/per_query.csv", "M2DP + G"),
             "LiDAR-Iris": (T3 / "vehicle1/iris/per_query.csv", None),
             "RING++": (T3 / "vehicle1/ringpp/results/ringpp_per_query.csv", None),
+            "OT": (LEARNED_OT / "indoor_vehicle1_gravity/per_query.csv", None),
+            "MinkLoc-v2": (LEARNED_MINK / "indoor_vehicle1_gravity/per_query.csv", None),
             "UpDown-SC": (SELECTED / "h1_v1/per_query.csv", None),
         },
         "nc_gravity": {
@@ -126,6 +150,8 @@ def cond_files() -> dict:
             "M2DP": (nc / "gravity/per_query.csv", "M2DP + G"),
             "LiDAR-Iris": (nc / "lidar_iris_gravity_per_query.csv", None),
             "RING++": (nc / "ringpp_per_query.csv", None),
+            "OT": (LEARNED_OT / "nc_gravity/per_query.csv", None),
+            "MinkLoc-v2": (LEARNED_MINK / "nc_gravity/per_query.csv", None),
             "UpDown-SC": (SELECTED / "nc_gravity/per_query.csv", None),
         },
     }
@@ -147,6 +173,8 @@ def pr_files() -> dict:
             "M2DP": (native_dir / ("per_query.csv" if gravity else "m2dp_per_query.csv"), "M2DP" + suffix),
             "LiDAR-Iris": (native_dir / "lidar_iris_per_query.csv", None),
             "RING++": recorded["RING++"],
+            "OT": recorded["OT"],
+            "MinkLoc-v2": recorded["MinkLoc-v2"],
             "UpDown-SC": (SELECTED / f"{cond}/candidates.csv", "CANDIDATES"),
         }
     return result
@@ -221,7 +249,7 @@ def main() -> None:
             else:
                 rows = read_rows(path, algo)
                 total = len(rows)
-                scores = np.asarray([float(row["top1_score"]) for row in rows])
+                scores = np.asarray([score_value(row) for row in rows])
                 flags = np.asarray([as_bool(row["recall_at_1"]) for row in rows])
                 missing = 0
             f1max, aupr = pr_metrics(

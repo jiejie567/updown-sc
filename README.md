@@ -14,7 +14,7 @@ Every number in the paper traces to a per-query CSV in the data package; see
 | `updown_sc/` | Standalone C++ implementation of UpDown-SC (no ROS dependency): dual-envelope SCD construction with gravity canonicalization and adaptive split (`scan_context_rebuild`), masked non-uniform retrieval with yaw hypotheses (`scan_context_cross_sequence_evaluator`), plus SCD conversion/subset tools. |
 | `baselines/python/` | Audited formula-equivalent CPU baselines (SC, SC++ (PC), SOLiD, M2DP, RING++ CPU port) and query/gravity export tools. |
 | `baselines/adapters/` | Our adapters for official C++ cores (LiDAR-Iris benchmark harness; BTC/STD run via `experiments/` scripts). Official cores are fetched from their upstream repositories; we do not redistribute them. |
-| `experiments/` | Per-dataset protocol scripts and READMEs (in-house two-session, RTK-SLAM Construction Hall, Newer College, indoor cross-device, M2DGR hall). |
+| `experiments/` | Per-dataset protocol scripts and READMEs (in-house two-session, RTK-SLAM Construction Hall, Newer College, indoor cross-device, M2DGR hall), plus official-checkpoint OverlapTransformer and MinkLoc3Dv2 adapters. |
 | `figures/` | Deterministic figure generators with their source-data files and integrity metadata. |
 | `docs/` | Provenance (paper number -> CSV mapping) and protocol manifests. |
 | `data/` | Download manifest and packaging scripts for the evaluation data (hosted separately; see `data/README.md`). |
@@ -72,17 +72,25 @@ each released session ships the `runtime_params.yaml` it was built with.
 3. Re-run retrieval from inputs: the UpDown-SC tools above for our method;
    `experiments/common/rescore_native_baselines.py` and
    `run_gravity_frontend_transfer.py` (Python baselines);
-   `baselines/adapters/lidar_iris/benchmark.cpp` (official Iris core).
+   `baselines/adapters/lidar_iris/benchmark.cpp` (official Iris core); and
+   `experiments/common/run_overlap_transformer.py` and
+   `run_minkloc3dv2.py` for the two learned rows. These consume upstream
+   [OverlapTransformer](https://github.com/haomo-ai/OverlapTransformer)
+   and [MinkLoc3Dv2](https://github.com/jac99/MinkLoc3Dv2) checkouts with
+   their official KITTI- and Oxford-trained checkpoints, respectively;
+   neither upstream code nor weights are redistributed here. Each adapter
+   verifies the checkpoint SHA-256 before running and records the upstream
+   commit and full protocol in `run_manifest.json`.
 
-Some experiment scripts retain the absolute paths of the original runs for
-archival fidelity; the path map is documented in `data/README.md`.
+Archived path fields use the portable `${UPDOWN_SC_ROOT}` placeholder; the
+path convention is documented in `data/PATHS.md`.
 
 ## Licenses
 
 All released code (UpDown-SC implementation, Python baselines, adapters,
 experiment, and figure code) is under the MIT license (`LICENSE`). Official
-baseline cores (LiDAR-Iris, BTC, STD) keep their upstream licenses and are
-fetched, not redistributed.
+baseline cores and checkpoints (LiDAR-Iris, BTC, STD, OverlapTransformer,
+MinkLoc3Dv2) keep their upstream licenses and are fetched, not redistributed.
 
 ## Citation
 

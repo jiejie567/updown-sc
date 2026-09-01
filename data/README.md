@@ -1,7 +1,9 @@
 # Evaluation data package
 
-Hosted separately (Zenodo record; DOI added at release). Total ~720 MB. Contents and the
-paths the scripts expect:
+The complete package is hosted separately (Zenodo record; DOI added at
+release) and is about 720 MB. The compact, directly shareable result bundles
+currently available in this repository are under `data/package/`, with
+SHA-256 checksums. Package contents and expected paths are:
 
 | Group | Contents | Approx. size | Expected path (as-run) |
 |---|---|---|---|
@@ -11,6 +13,8 @@ paths the scripts expect:
 | `cross_device_2m/` | H1/H2/V1 sessions, queries, per-query CSVs | ~87 MB | `experiments/indoor_cross_device_2m/` |
 | `metrics/` | `metrics_augment_20260725/` CSVs (CI, PR/F1, McNemar, yaw) + weight-ablation `selected/` per-query and candidates | ~8 MB | `experiments/metrics_augment_20260725/` |
 | `m2dgr_2m/` | M2DGR hall_04 map session (33 keyframes) + hall_02 query session/bins (28 eligible queries), per-query CSVs for all 7 methods, SCDs, build report | ~14 MB | `experiments/m2dgr_hall_eval_2m/` |
+| `learned_ot/` | OverlapTransformer per-query CSVs, summaries, descriptor caches, and run manifests for every Table II condition and the 2,574-frame latency benchmark | ~6 MB | `experiments/learned_baseline_20260831/` |
+| `learned_minkloc3dv2/` | MinkLoc3Dv2 per-query CSVs, summaries, descriptor caches, and run manifests for every Table II condition and the 2,574-frame latency benchmark | ~5 MB | `experiments/learned_minkloc3dv2_20260831/` |
 | `production_map/` | 2,574-keyframe production prior map + SCD used by the latency benchmark | ~245 MB | `manual_loop/gravity/` |
 
 The release starts from deskewed, motion-compensated keyframe clouds: every
