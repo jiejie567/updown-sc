@@ -1,0 +1,14 @@
+# Local builds and Python environments
+build/
+.venv/
+__pycache__/
+*.py[cod]
+
+# Editor and OS metadata
+.DS_Store
+.idea/
+.vscode/
+
+# Locally materialized data workspaces
+data/full/
+data/unpacked/

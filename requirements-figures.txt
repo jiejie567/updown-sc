@@ -1,0 +1,6 @@
+-r requirements.txt
+Pillow>=10,<12
+python-pptx>=1.0,<2
+
+# Manim is needed only for the optional experiment-video source scenes.
+manim>=0.18,<0.20

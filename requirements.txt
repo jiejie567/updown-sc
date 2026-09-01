@@ -1,0 +1,5 @@
+# Non-ROS evaluation, statistics, and publication plots.
+numpy>=1.24,<2
+scipy>=1.10,<2
+scikit-image>=0.21,<1
+matplotlib>=3.6,<4

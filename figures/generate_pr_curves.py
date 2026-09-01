@@ -6,7 +6,7 @@ the manuscript: each query's top-1 candidate carries its descriptor
 confidence; sweeping an acceptance threshold yields precision (correct
 accepted / accepted) over recall (correct accepted / all queries). Data come
 from the same per-query CSVs as ``metrics_augment_20260725/pr_f1_summary.csv``
-via ``slam/experiments/common/compute_retrieval_stats.py``.
+via ``experiments/common/compute_retrieval_stats.py``.
 """
 
 from __future__ import annotations
@@ -19,7 +19,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 OUT = Path(__file__).resolve().parent
-sys.path.insert(0, str(OUT.parent / "slam/experiments/common"))
+sys.path.insert(0, str(OUT.parent / "experiments/common"))
 import compute_retrieval_stats as crs  # noqa: E402
 
 mpl.rcParams.update({

@@ -15,11 +15,13 @@ from __future__ import annotations
 
 import csv
 import math
+import os
 from pathlib import Path
 
 import numpy as np
 
-RT = Path("${UPDOWN_SC_ROOT}/icra2027_runtime/experiments")
+RT = Path(os.path.expandvars(
+    "${UPDOWN_SC_ROOT}/icra2027_runtime/experiments"))
 SELECTED = RT / "updown_weight_ablation_real_20260721/selected"
 AUG = RT / "metrics_augment_20260725"
 GT = RT / "gravity_transfer_2m_20260718"

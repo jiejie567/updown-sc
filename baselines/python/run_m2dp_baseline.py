@@ -110,7 +110,7 @@ def descriptor_from_aligned(data):
 
 
 def m2dp(points):
-    """Direct translation of the official LiHeUA/M2DP MATLAB formula."""
+    """Independent NumPy implementation of the published M2DP procedure."""
     points = crop(points)
     if len(points) < 3:
         return np.zeros(192, dtype=np.float32)

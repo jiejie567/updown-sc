@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+message: "If you use UpDown-SC, please cite the accompanying preprint."
+title: "UpDown-SC: A Gravity-Canonicalized Dual-Envelope Scan Context for Indoor LiDAR Place Recognition"
+type: software
+authors:
+  - family-names: Xu
+    given-names: Jie
+  - family-names: Yang
+    given-names: Yongxin
+  - family-names: Jin
+    given-names: Ziyi
+  - family-names: Yu
+    given-names: Kangjin
+  - family-names: Huang
+    given-names: Hongjun
+  - family-names: Han
+    given-names: Chao
+  - family-names: Xia
+    given-names: Zhongpu
+repository-code: "https://github.com/jiejie567/updown-sc"
+url: "https://jiejie567.github.io/updown-sc/"
+license: MIT
+date-released: 2026-09-01

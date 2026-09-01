@@ -9,6 +9,13 @@ unpack the data package, preserving the relative layout listed in
 export UPDOWN_SC_ROOT=/path/to/unpacked
 ```
 
-Python scripts that embed the placeholder read it literally; substitute it
-(`envsubst` or a one-line sed) or export the variable before running the shell
-wrappers.
+Shell wrappers expand the variable normally. Current Python statistics and PR
+curve entry points also expand it from the environment. A few archived
+protocol scripts preserve the literal placeholder for provenance; materialize
+those scripts in a working copy with `envsubst` before running them, for
+example:
+
+```bash
+envsubst < archived_script.py > /tmp/archived_script.py
+python /tmp/archived_script.py
+```
