@@ -1,7 +1,8 @@
 # UpDown-SC: Gravity-Canonicalized Dual-Envelope Scan Context
 
 [**Project Page**](https://jiejie567.github.io/updown-sc/) ·
-[**Reproducibility & Provenance**](docs/PROVENANCE.md)
+[**Reproducibility & Provenance**](docs/PROVENANCE.md) ·
+[**AI Deployment Skill**](.agents/skills/updown-sc-deployment/SKILL.md)
 
 Public code, baselines, evaluation protocols, and reproducibility artifacts
 for the preprint "UpDown-SC: A Gravity-Canonicalized Dual-Envelope Scan
