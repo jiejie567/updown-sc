@@ -16,7 +16,11 @@
     line-height: 1.6;
   }
   .wrap { max-width: 900px; margin: 0 auto; padding: 48px 20px 80px; }
-  h1 { font-size: 1.9rem; line-height: 1.3; text-align: center; margin: 0 0 14px; }
+  h1 {
+    font-size: clamp(.82rem, 3.2vw, 1.9rem); line-height: 1.3;
+    text-align: center; margin: 0 0 14px; letter-spacing: -.015em;
+  }
+  h1 .title-line { display: block; white-space: nowrap; }
   .authors, .affil { text-align: center; margin: 4px 0; }
   .authors { font-size: 1.02rem; }
   .authors span { white-space: nowrap; }
@@ -57,7 +61,10 @@
 <body>
 <div class="wrap">
 
-<h1>UpDown-SC: A Gravity-Canonicalized Dual-Envelope Scan Context<br>for Indoor LiDAR Place Recognition</h1>
+<h1>
+  <span class="title-line">UpDown-SC: A Gravity-Canonicalized Dual-Envelope</span>
+  <span class="title-line">Scan Context for Indoor LiDAR Place Recognition</span>
+</h1>
 
 <p class="authors">
   <span>Jie Xu</span>, <span>Yongxin Yang</span>, <span>Ziyi Jin</span>,
