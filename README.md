@@ -1,5 +1,7 @@
 # UpDown-SC: Gravity-Canonicalized Dual-Envelope Scan Context
 
+English | [中文](./README_CN.md)
+
 [**Project Page**](https://jiejie567.github.io/updown-sc/) ·
 [**Reproducibility & Provenance**](docs/PROVENANCE.md) ·
 [**AI Deployment Skill**](.agents/skills/updown-sc-deployment/SKILL.md)
