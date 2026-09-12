@@ -11,7 +11,7 @@ MinkLoc3Dv2 was trained on PointNetVLAD-format point clouds: ground-removed,
 fixed-size local submaps scaled to roughly [-1, 1]. For deterministic single-
 scan transfer, this adapter uses the common 0.3--30 m crop, a 0.10 m voxel
 prefilter, a deterministic 4096-point cap, and the official PointNetVLAD
-centroid/mean-radius normalization.
+centroid/mean-radius normalization, including its global sign inversion.
 No test-set labels, fine-tuning, or per-cloud scale fitting are used.
 """
 
@@ -22,6 +22,7 @@ import csv
 import hashlib
 import json
 import math
+import platform
 import subprocess
 import sys
 import time
@@ -221,7 +222,7 @@ def prepare_cloud(
     mean_radius = float(np.mean(np.linalg.norm(result, axis=1)))
     if not np.isfinite(mean_radius) or mean_radius < 1e-6:
         raise RuntimeError("Degenerate point cloud for mean-radius normalization")
-    result = result * np.float32(0.5 / mean_radius)
+    result = result * np.float32(-0.5 / mean_radius)
     result = result[np.all(np.abs(result) <= 1.0, axis=1)]
     if not len(result):
         raise RuntimeError("Point cloud is empty after official normalization")
@@ -235,6 +236,54 @@ def write_csv(path: Path, rows: list[dict]) -> None:
         writer = csv.DictWriter(handle, fieldnames=list(rows[0]))
         writer.writeheader()
         writer.writerows(rows)
+
+
+def effective_model_parameters(model_params) -> dict:
+    """Return the model settings actually parsed by upstream ModelParams."""
+    quantization_step = model_params.quantization_step
+    if isinstance(quantization_step, (tuple, list)):
+        quantization_step = [float(value) for value in quantization_step]
+    else:
+        quantization_step = float(quantization_step)
+    return {
+        "model": model_params.model,
+        "output_dim": int(model_params.output_dim),
+        "coordinates": model_params.coordinates,
+        "quantization_step": quantization_step,
+        "normalize_embeddings": bool(model_params.normalize_embeddings),
+        "feature_size": int(model_params.feature_size),
+        "planes": [int(value) for value in model_params.planes],
+        "layers": [int(value) for value in model_params.layers],
+        "num_top_down": int(model_params.num_top_down),
+        "conv0_kernel_size": int(model_params.conv0_kernel_size),
+        "block": model_params.block,
+        "pooling": model_params.pooling,
+    }
+
+
+def runtime_environment(torch, minkowski_engine, model) -> dict:
+    """Report observed runtime properties without making build-time claims."""
+    first_parameter = next(model.parameters(), None)
+    return {
+        "python_version": platform.python_version(),
+        "python_compiler": platform.python_compiler(),
+        "platform": platform.platform(),
+        "numpy_version": np.__version__,
+        "torch_version": str(torch.__version__),
+        "torch_cuda_version": torch.version.cuda,
+        "torch_cuda_available": bool(torch.cuda.is_available()),
+        "minkowski_engine_version": str(
+            getattr(minkowski_engine, "__version__", "unavailable")
+        ),
+        "minkowski_engine_module": minkowski_engine.__name__,
+        "minkowski_engine_cuda_available": bool(
+            minkowski_engine.is_cuda_available()
+        ),
+        "inference_device": (
+            str(first_parameter.device) if first_parameter is not None else "unavailable"
+        ),
+        "torch_num_threads": int(torch.get_num_threads()),
+    }
 
 
 def load_official_model(args: argparse.Namespace):
@@ -279,10 +328,21 @@ def main() -> None:
     parser.add_argument("--allow-weight-mismatch", action="store_true")
     args = parser.parse_args()
 
+    if args.top_k < 10:
+        parser.error("--top-k must be at least 10 to compute recall@10")
     if args.protocol == "gravity" and (not args.map_gravity or not args.query_gravity):
         parser.error("gravity protocol requires --map-gravity and --query-gravity")
     if args.prevoxel_m <= 0 or args.sample_points <= 0:
         parser.error("prevoxel and point count must be positive")
+    args.minkloc_root = args.minkloc_root.expanduser().resolve(strict=True)
+    args.model_config = args.model_config.expanduser().resolve(strict=True)
+    try:
+        model_config_relative_path = args.model_config.relative_to(
+            args.minkloc_root
+        ).as_posix()
+    except ValueError:
+        parser.error("--model-config must be inside --minkloc-root")
+    model_config_hash = sha256(args.model_config)
     weights_hash = sha256(args.weights)
     if weights_hash != EXPECTED_WEIGHTS_SHA256 and not args.allow_weight_mismatch:
         raise RuntimeError(
@@ -425,21 +485,29 @@ def main() -> None:
         "queries_total": len(queries),
         "queries_eligible": len(output),
         "correct_radius_m": args.correct_radius,
+        "top_k_requested": args.top_k,
+        "top_k_evaluated": top_k,
         "horizontal_crop_m": [args.min_radius, args.max_radius],
         "input_preprocessing": {
             "prevoxel_m": args.prevoxel_m,
             "deterministic_point_cap": args.sample_points,
-            "normalization": "PointNetVLAD centroid and mean-radius (s=0.5/d)",
+            "normalization": (
+                "PointNetVLAD centroid and mean-radius (s=0.5/d), followed "
+                "by the released global sign inversion"
+            ),
             "per_cloud_centering": True,
             "ground_removal": False,
         },
+        "model_config": {
+            "repository_relative_path": model_config_relative_path,
+            "sha256": model_config_hash,
+        },
         "official_model_quantization_step_normalized": model_params.quantization_step,
+        "model_parameters": effective_model_parameters(model_params),
+        "normalize_embeddings": bool(model.normalize_embeddings),
         "descriptor_dimensions": int(map_descriptors.shape[1]),
         "distance": "squared L2 (rank-equivalent to official L2)",
-        "runtime_compatibility": (
-            "MinkowskiEngine v0.5.4 CPU build; standard <cstdint> include "
-            "added for GCC 13, with model code and weights unchanged"
-        ),
+        "runtime_environment": runtime_environment(torch, ME, model),
         "threads": args.threads,
         "query_input_preloaded_before_timing": True,
         "summary": summary,

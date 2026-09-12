@@ -12,7 +12,16 @@ trap 'rm -f "$CHECKSUMS_TMP"' EXIT
 
 audit_archive () {
   local archive=$1
+  local leaked_owner
   local leaked_home
+  leaked_owner=$(
+    tar --numeric-owner -tvzf "$archive" 2>/dev/null |
+      awk '$2 != "0/0" {print $2; exit}'
+  )
+  if [[ -n "$leaked_owner" ]]; then
+    echo "refusing archive with a non-anonymous owner: $leaked_owner" >&2
+    return 1
+  fi
   leaked_home=$(
     tar -xOzf "$archive" 2>/dev/null |
       LC_ALL=C grep -aEom1 "(/home/[^/[:space:]\"']+|/Users/[^/[:space:]\"']+|[A-Za-z]:\\\\Users\\\\[^\\\\[:space:]\"']+)" || true
@@ -28,7 +37,15 @@ pack () {  # pack <name> <src...>
   local archive
   shift
   archive=$(mktemp "$OUT/.${name}.XXXXXX")
-  tar -czf "$archive" "$@"
+  LC_ALL=C TZ=UTC tar \
+    --sort=name \
+    --format=gnu \
+    --mtime='UTC 2026-09-02 00:00:00' \
+    --owner=0 --group=0 --numeric-owner \
+    --mode='u+rwX,go+rX,go-w,a-s' \
+    --no-acls --no-selinux --no-xattrs \
+    --exclude='*/__pycache__' --exclude='*.pyc' --exclude='*.pyo' \
+    -cf - "$@" | gzip -n -9 > "$archive"
   if ! audit_archive "$archive"; then
     rm -f "$archive"
     return 1
@@ -43,7 +60,16 @@ pack ch_2m -C "$RT/experiments" rtk_slam_construction_hall_2m/seq1 rtk_slam_cons
 pack nc_2m -C "$RT/experiments" newer_college_quad_easy_2m
 pack cross_device_2m -C "$RT/experiments" indoor_cross_device_2m
 pack m2dgr_2m -h -C "$RT/experiments" m2dgr_hall_eval_2m/seq1 m2dgr_hall_eval_2m/query_session m2dgr_hall_eval_2m/derived m2dgr_hall_eval_2m/results m2dgr_hall_eval_2m/scd m2dgr_hall_eval_2m/split_hall_02 m2dgr_hall_eval_2m/split_hall_04 m2dgr_hall_eval_2m/build_report.json
-pack metrics -C "$RT/experiments" metrics_augment_20260725 updown_weight_ablation_real_20260721/selected updown_weight_ablation_real_20260721/selected_summary.csv
+pack metrics -C "$RT/experiments" \
+  metrics_augment_20260725 \
+  updown_weight_ablation_real_20260721/selected \
+  updown_weight_ablation_real_20260721/selected_summary.csv \
+  gravity_transfer_2m_20260718/ih/results/per_query.csv \
+  gravity_transfer_2m_20260718/ih/results/lidar_iris_per_query.csv \
+  gravity_transfer_2m_20260718/ih/ringpp/results/ringpp_per_query.csv \
+  gravity_transfer_2m_20260718/ch/results/per_query.csv \
+  gravity_transfer_2m_20260718/ch/results/lidar_iris_per_query.csv \
+  gravity_transfer_2m_20260718/ch/ringpp/results/ringpp_per_query.csv
 pack learned_ot -C "$RT/experiments" learned_baseline_20260831
 pack learned_minkloc3dv2 -C "$RT/experiments" learned_minkloc3dv2_20260831
 pack production_map -C "$RT" manual_loop/gravity

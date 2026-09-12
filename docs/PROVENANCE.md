@@ -89,44 +89,51 @@ evaluator's `updown_candidates.csv` reproduces 92.9/100.0 Recall@1/5
 package; reproduction starts from the released deskewed keyframe sessions.
 The whole release is now MIT-licensed (`LICENSE`).
 
-# OverlapTransformer learned baseline 2026-08-31
+# OverlapTransformer learned baseline (protocol-corrected recomputation, 2026-09-12)
 
 Paper Table II's learned OT row was evaluated with the official
 OverlapTransformer KITTI checkpoint, without fine-tuning. The adapter is
 `experiments/common/run_overlap_transformer.py`; the per-query evidence,
 summaries, descriptor caches, and manifests are packaged as `learned_ot`.
+All nine conditions were rerun on 2026-09-12 after verifying the adapter
+against the upstream default PNG conversion. Superseded direct-float pilot
+outputs are not used anywhere in the release.
 
 - Official repository commit: `9809ac2c7bce9ebf446392f79bfe514927ab4c63`
 - Checkpoint SHA-256: `5b1da14c09e990257a41b05460cc390c7c62ddb65b0bc8900d421a78a2864bae`
 - Input: the common deskewed single frame and 0.3--30 m horizontal crop
 - Projection: the official 64 x 900 spherical range image, +3/-25 degree
-  vertical field of view, 80 m projection cap
+  vertical field of view, 80 m projection cap, followed by the released PNG
+  round-to-uint8 conversion (empty -1 pixels become 0)
 - Retrieval: squared L2 distance between the official 256-D descriptors
 - `+G`: the same gravity canonicalization supplied to the compatible
   single-frame baselines; no other parameter changes
 
 | Table II condition | R@1/R@5 (%) | Source |
 |---|---:|---|
-| IH native | 15.6/41.6 | `ih_native/per_query.csv` |
-| IH +G | 12.5/31.9 | `ih_gravity/per_query.csv` |
-| CH native | 12.8/41.2 | `ch_native/per_query.csv` |
-| CH +G | 27.0/49.3 | `ch_gravity/per_query.csv` |
-| H1 to H2 +G | 8.6/20.7 | `indoor_handle2_gravity/per_query.csv` |
-| H1 to V1 +G | 12.3/22.8 | `indoor_vehicle1_gravity/per_query.csv` |
-| M2DGR +G | 42.9/78.6 | `m2dgr_gravity/per_query.csv` |
-| Newer College +G | 68.3/95.0 | `nc_gravity/per_query.csv` |
+| IH native | 13.4/43.4 | `ih_native/per_query.csv` |
+| IH +G | 14.1/34.4 | `ih_gravity/per_query.csv` |
+| CH native | 12.8/37.2 | `ch_native/per_query.csv` |
+| CH +G | 26.4/52.7 | `ch_gravity/per_query.csv` |
+| H1 to H2 +G | 12.1/22.4 | `indoor_handle2_gravity/per_query.csv` |
+| H1 to V1 +G | 17.5/24.6 | `indoor_vehicle1_gravity/per_query.csv` |
+| M2DGR +G | 50.0/85.7 | `m2dgr_gravity/per_query.csv` |
+| Newer College +G | 71.7/95.0 | `nc_gravity/per_query.csv` |
 
-The Table II latency, 44.6 ms median, comes from
+The Table II latency, 43.2 ms median, comes from
 `production_latency_native/per_query.csv`: 92 query clouds were preloaded and
 ranked against 2,574 precomputed database descriptors on the same Intel Core
 Ultra 5 225H. Map construction and file I/O are excluded from query timing.
 
-# MinkLoc3Dv2 learned baseline 2026-08-31
+# MinkLoc3Dv2 learned baseline (protocol-corrected recomputation, 2026-09-12)
 
 Paper Table II's MinkLoc-v2 row uses the official MinkLoc3Dv2 Oxford-only
 baseline checkpoint, without fine-tuning. The adapter is
 `experiments/common/run_minkloc3dv2.py`; per-query evidence, summaries,
 descriptor caches, and manifests are packaged as `learned_minkloc3dv2`.
+All nine conditions were rerun on 2026-09-12 after restoring the released
+PointNetVLAD global coordinate-sign convention. Superseded pilot outputs are
+not used anywhere in the release.
 
 - Official repository commit: `2413a5ddc2fca941be54d300f8bafc45043e9d62`
 - Checkpoint SHA-256: `559242b5f97be756c391d1d1d4c622ea6b1ea21d809c559d12584167134d4e79`
@@ -135,7 +142,8 @@ descriptor caches, and manifests are packaged as `learned_minkloc3dv2`.
   single-frame baselines
 - Deterministic adapter preprocessing: 0.10 m voxel prefilter and an
   order-independent 4,096-point cap, followed by the released PointNetVLAD
-  centroid/mean-radius normalization; no ground removal is applied
+  centroid/mean-radius normalization and global coordinate-sign inversion;
+  no ground removal is applied
 - Retrieval: squared L2 distance (rank-equivalent to L2) between the official
   256-D sparse-voxel descriptors
 - Runtime: Python 3.8.20, PyTorch 1.10.1 CPU, MinkowskiEngine 0.5.4 CPU. The
@@ -145,16 +153,16 @@ descriptor caches, and manifests are packaged as `learned_minkloc3dv2`.
 
 | Table II condition | R@1/R@5 (%) | Source |
 |---|---:|---|
-| IH native | 55.0/78.8 | `ih_native/per_query.csv` |
-| IH +G | 54.7/80.9 | `ih_gravity/per_query.csv` |
-| CH native | 39.9/70.3 | `ch_native/per_query.csv` |
-| CH +G | 52.0/83.1 | `ch_gravity/per_query.csv` |
-| H1 to H2 +G | 15.5/56.9 | `indoor_handle2_gravity/per_query.csv` |
-| H1 to V1 +G | 19.3/52.6 | `indoor_vehicle1_gravity/per_query.csv` |
-| M2DGR +G | 50.0/96.4 | `m2dgr_gravity/per_query.csv` |
-| Newer College +G | 83.3/93.3 | `nc_gravity/per_query.csv` |
+| IH native | 55.3/78.8 | `ih_native/per_query.csv` |
+| IH +G | 56.6/79.1 | `ih_gravity/per_query.csv` |
+| CH native | 32.4/66.9 | `ch_native/per_query.csv` |
+| CH +G | 54.7/82.4 | `ch_gravity/per_query.csv` |
+| H1 to H2 +G | 19.0/51.7 | `indoor_handle2_gravity/per_query.csv` |
+| H1 to V1 +G | 21.1/33.3 | `indoor_vehicle1_gravity/per_query.csv` |
+| M2DGR +G | 60.7/89.3 | `m2dgr_gravity/per_query.csv` |
+| Newer College +G | 80.0/93.3 | `nc_gravity/per_query.csv` |
 
-The Table II latency, 394.4 ms median, comes from
+The Table II latency, 401.4 ms median, comes from
 `production_latency_native/per_query.csv`: 92 preloaded query clouds were
 ranked against 2,574 precomputed database descriptors on the same Intel Core
 Ultra 5 225H. Map construction and file I/O are excluded from query timing.

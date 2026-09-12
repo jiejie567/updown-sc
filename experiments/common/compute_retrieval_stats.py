@@ -20,8 +20,10 @@ from pathlib import Path
 
 import numpy as np
 
-RT = Path(os.path.expandvars(
-    "${UPDOWN_SC_ROOT}/icra2027_runtime/experiments"))
+if "UPDOWN_SC_ROOT" not in os.environ:
+    raise RuntimeError("Set UPDOWN_SC_ROOT to the data workspace root")
+ROOT = Path(os.environ["UPDOWN_SC_ROOT"]).expanduser()
+RT = ROOT / "icra2027_runtime/experiments"
 SELECTED = RT / "updown_weight_ablation_real_20260721/selected"
 AUG = RT / "metrics_augment_20260725"
 GT = RT / "gravity_transfer_2m_20260718"

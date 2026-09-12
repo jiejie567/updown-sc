@@ -3,7 +3,8 @@
 
 The adapter preserves the paper's database/query split, horizontal crop, and
 position-radius correctness rule.  It uses the range projection and network
-definition from an explicitly supplied checkout of the official repository.
+definition from an explicitly supplied checkout of the official repository,
+including the released PNG round-to-uint8 input conversion.
 Native and gravity-canonicalized inputs are selected with ``--protocol``.
 """
 
@@ -183,6 +184,11 @@ def prepare_cloud(
     return result[keep]
 
 
+def official_png_depth(projection: np.ndarray) -> np.ndarray:
+    """Match OpenCV's float-PNG write and grayscale-read conversion."""
+    return np.clip(np.rint(projection), 0, 255).astype(np.uint8)
+
+
 def write_csv(path: Path, rows: list[dict]) -> None:
     if not rows:
         raise RuntimeError(f"Refusing to write empty CSV: {path}")
@@ -232,6 +238,8 @@ def main() -> None:
     parser.add_argument("--allow-weight-mismatch", action="store_true")
     args = parser.parse_args()
 
+    if args.top_k < 10:
+        parser.error("--top-k must be at least 10 to compute recall@10")
     if args.protocol == "gravity" and (not args.map_gravity or not args.query_gravity):
         parser.error("gravity protocol requires --map-gravity and --query-gravity")
     weights_hash = sha256(args.weights)
@@ -269,6 +277,7 @@ def main() -> None:
             proj_W=900,
             max_range=args.projection_max_range,
         )
+        projected = official_png_depth(projected)
         tensor = torch.from_numpy(projected).float()[None, None]
         with torch.inference_mode():
             return model(tensor)[0].detach().cpu().numpy().astype(
@@ -378,6 +387,8 @@ def main() -> None:
         "queries_total": len(queries),
         "queries_eligible": len(output),
         "correct_radius_m": args.correct_radius,
+        "top_k_requested": args.top_k,
+        "top_k_evaluated": top_k,
         "horizontal_crop_m": [args.min_radius, args.max_radius],
         "projection": {
             "height": 64,
@@ -385,6 +396,9 @@ def main() -> None:
             "fov_up_deg": args.fov_up,
             "fov_down_deg": args.fov_down,
             "max_range_m": args.projection_max_range,
+            "input_conversion": (
+                "official PNG round-to-uint8; empty -1 pixels become 0"
+            ),
         },
         "threads": args.threads,
         "query_input_preloaded_before_timing": True,

@@ -103,7 +103,9 @@ weights are not vendored here.
    their official KITTI- and Oxford-trained checkpoints, respectively;
    neither upstream code nor weights are redistributed here. Each adapter
    verifies the checkpoint SHA-256 before running and records the upstream
-   commit and full protocol in `run_manifest.json`.
+   commit and exact transfer protocol in `run_manifest.json`. The OT adapter
+   reproduces the released PNG round-to-uint8 input conversion; the MinkLoc-v2
+   adapter preserves the released PointNetVLAD coordinate-sign convention.
 
 Archived path fields use the portable `${UPDOWN_SC_ROOT}` placeholder; the
 path convention is documented in `data/PATHS.md`.
