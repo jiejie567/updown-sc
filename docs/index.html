@@ -25,6 +25,10 @@
   .authors { font-size: 1.02rem; }
   .authors span { white-space: nowrap; }
   .affil { color: var(--muted); font-size: .95rem; }
+  .company-logo {
+    display: block; width: min(280px, 64vw); margin: 14px auto 8px;
+  }
+  .company-logo img { width: 100%; border-radius: 0; }
   .venue { text-align: center; color: var(--accent); font-weight: 600; margin-top: 10px; }
   .links { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 22px 0 8px; }
   .links a {
@@ -71,7 +75,10 @@
   <span>Kangjin Yu</span>, <span>Hongjun Huang</span>, <span>Chao Han</span>,
   <span>Zhongpu Xia<sup>&dagger;</sup></span>
 </p>
-<p class="affil">Anyverse Dynamics, Beijing, China &nbsp;·&nbsp; <sup>&dagger;</sup>corresponding author</p>
+<a class="company-logo" href="https://anyverse.com/" target="_blank" rel="noreferrer" aria-label="Anyverse Dynamics website">
+  <img src="assets/anyverse-dynamics-logo.png" alt="Anyverse Dynamics">
+</a>
+<p class="affil">Beijing, China &nbsp;·&nbsp; <sup>&dagger;</sup>corresponding author</p>
 <p class="venue">Preprint &middot; under review</p>
 
 <div class="links">
