@@ -20,7 +20,7 @@ UpDown-SC 是一种面向室内场景、无需训练的激光雷达地点识别�
 仓库包含论文所用的独立 C++ 实现、实验协议、基线适配器、结果文件和绘图代码。
 
 <p align="center">
-  <a href="https://jiejie567.github.io/updown-sc/"><img src="docs/assets/updown_sc_hero.png" width="820" alt="UpDown-SC 室内激光雷达描述子概览"></a>
+  <a href="https://jiejie567.github.io/updown-sc/"><img src="docs/assets/updown_sc_hero.png" width="380" alt="UpDown-SC 室内激光雷达描述子概览"></a>
 </p>
 
 ## 快速开始

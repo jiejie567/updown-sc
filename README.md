@@ -24,7 +24,7 @@ protocols, baseline adapters, result files, and figure code used for the
 preprint.
 
 <p align="center">
-  <a href="https://jiejie567.github.io/updown-sc/"><img src="docs/assets/updown_sc_hero.png" width="820" alt="UpDown-SC indoor LiDAR descriptor overview"></a>
+  <a href="https://jiejie567.github.io/updown-sc/"><img src="docs/assets/updown_sc_hero.png" width="380" alt="UpDown-SC indoor LiDAR descriptor overview"></a>
 </p>
 
 ## Quick start
