@@ -4,6 +4,12 @@
 
 **Gravity-Canonicalized Dual-Envelope Scan Context for Indoor LiDAR Place Recognition**
 
+Jie Xu, Yongxin Yang, Ziyi Jin, Kangjin Yu, Hongjun Huang, Chao Han, Zhongpu Xia<sup>†</sup>
+
+**Anyverse Dynamics · Beijing, China**
+
+<sup>†</sup> Corresponding author: Zhongpu Xia.
+
 <a href="https://anyverse.com/"><img src="docs/assets/anyverse-dynamics-logo.png" width="280" alt="Anyverse Dynamics"></a>
 
 [Project Page](https://jiejie567.github.io/updown-sc/) · [Results & Provenance](docs/PROVENANCE.md) · [Data](data/README.md)

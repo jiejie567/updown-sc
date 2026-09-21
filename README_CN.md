@@ -4,6 +4,12 @@
 
 **面向室内激光雷达地点识别的重力规范化双包络 Scan Context**
 
+Jie Xu, Yongxin Yang, Ziyi Jin, Kangjin Yu, Hongjun Huang, Chao Han, Zhongpu Xia<sup>†</sup>
+
+**无界动力 · Anyverse Dynamics · 中国北京**
+
+<sup>†</sup> 通讯作者：Zhongpu Xia。
+
 <a href="https://anyverse.com/"><img src="docs/assets/anyverse-dynamics-logo.png" width="280" alt="无界动力 Anyverse Dynamics"></a>
 
 [项目主页](https://jiejie567.github.io/updown-sc/) · [结果溯源](docs/PROVENANCE.md) · [数据说明](data/README.md)
