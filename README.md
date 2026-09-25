@@ -27,6 +27,16 @@ preprint.
   <a href="https://jiejie567.github.io/updown-sc/"><img src="docs/assets/updown_sc_hero.png" width="380" alt="UpDown-SC indoor LiDAR descriptor overview"></a>
 </p>
 
+## See it in motion
+
+<p align="center"><img src="docs/assets/updown_sc_method_preview.gif" width="720" alt="Measured indoor scan separating lower and overhead structure"></p>
+<p align="center"><em>One measured scan: the lower and overhead structures carry complementary cues.</em></p>
+
+<p align="center"><img src="docs/assets/updown_sc_relocalization_preview.gif" width="720" alt="Successive ICP registration attempts over a fixed prior point-cloud map"></p>
+<p align="center"><em>Successive ICP registrations on a fixed prior map; failed attempts are marked.</em></p>
+
+The [complete English video plays on the project page](https://jiejie567.github.io/updown-sc/#video).
+
 ## Quick start
 
 Dependencies: CMake 3.16+, a C++17 compiler, Eigen3, PCL (`common` and `io`),

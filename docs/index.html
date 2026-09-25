@@ -39,6 +39,7 @@
   .links a.disabled { opacity: .45; pointer-events: none; }
   .teaser { margin: 34px 0 8px; }
   img, video { max-width: 100%; display: block; margin: 0 auto; border-radius: 6px; }
+  video { width: 100%; background: #08111f; }
   .caption { color: var(--muted); font-size: .88rem; text-align: center; margin-top: 8px; }
   h2 { font-size: 1.25rem; border-bottom: 1.5px solid var(--line); padding-bottom: 6px; margin-top: 44px; }
   .abstract { text-align: justify; }
@@ -90,6 +91,25 @@
   <a href="#bibtex">BibTeX</a>
 </div>
 
+<h2 id="video">Video overview</h2>
+<video id="overview-video" controls autoplay muted loop playsinline preload="metadata"
+       poster="assets/updown_sc_video_v5_poster.jpg"
+       src="assets/updown_sc_video_v5.mp4">
+  Your browser does not support embedded video.
+</video>
+<p class="caption">2:31 English overview with measured scans, registered point clouds, retrieval results, and public-dataset experiments. Plays silently; use the controls to pause or seek.</p>
+<script>
+  const overviewVideo = document.getElementById('overview-video');
+  const videoObserver = new IntersectionObserver(([entry]) => {
+    if (entry.isIntersecting) {
+      overviewVideo.play().catch(() => {});
+    } else {
+      overviewVideo.pause();
+    }
+  }, { threshold: 0.25 });
+  videoObserver.observe(overviewVideo);
+</script>
+
 <div class="teaser">
   <img src="assets/updown_sc_hero.png" alt="UpDown-SC teaser: one indoor scan, Up and Down envelopes">
   <p class="caption">
@@ -124,10 +144,6 @@ mounting-height-varied sessions, together with the best or second-best F1max
 and AUPR under threshold-based acceptance, while retaining a lightweight CPU
 front end.
 </p>
-
-<h2 id="video">Video</h2>
-<video controls preload="metadata" src="assets/updown_sc_video.mp4?v=20260912-protocol-corrected-learned"></video>
-<p class="caption">2:59 overview — animated method intuition, measured retrieval experiments including learned zero-shot baselines, and continuous prior-map localization.</p>
 
 <h2>Method</h2>
 <div class="grid2">
@@ -205,7 +221,7 @@ automated build/replay preflight are available directly in the repository.
 
 <p class="note" style="text-align:center; margin-top:40px">
 &copy; 2026 Anyverse Dynamics · MIT-licensed code ·
-Music in the overview video: <a href="https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1600022">"Inspired" by Kevin MacLeod</a>, CC BY 4.0
+<a href="assets/ATTRIBUTION.md">Media attribution</a>
 </p>
 
 </div>
